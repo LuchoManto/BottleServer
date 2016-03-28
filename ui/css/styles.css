@@ -1,0 +1,79 @@
+/*Selection of the font*/
+body
+{
+    font-family: sans-serif;
+}
+
+/*Style for navbar_top. */
+.navbar_top
+{
+    border-bottom: 1.5px solid #0071C5;
+    background-image: none;
+    background-color: #E6E6E6;
+}
+
+/*Padding for navbar_top icon*/
+.navbar_top_icon
+{
+    padding: 0;
+}
+
+/* Style for main container*/
+.main_container
+{
+    margin-top: 20px;
+}
+
+/* Style for the navbar-bottom.*/
+.resizable_bottom
+{
+	height:140px;
+	border: 2px solid #ccc;
+	background-color: #FEFEFE;
+}
+
+/*GPS BUTTONS style*/
+.gps_button{
+   color: #000000;
+   filter: alpha(opacity=0);
+   -moz-opacity: 0.00;
+   opacity: 0.00;
+}
+
+/*Class to pading-top*/
+.padding_top10{
+    padding-top: 10px;
+}
+.padding_top20{
+    padding-top: 20px;
+}
+.padding_top30{
+    padding-top: 30px;
+}
+
+/*Class padding*/
+.padding_10{
+    padding: 10px;
+}
+
+/*Style to change background color to white*/
+.background_c_white
+{
+    background-color: white;
+}
+
+/*Renglones GPS*/
+.renglon_gps
+{
+    font-family:monospace;
+    font-size:15px;
+    letter-spacing:1.7px;
+    font-weight: bold;
+    white-space: pre;
+}
+
+/*Para achicar el min-height de navbar*/
+.navbar_bottom
+{
+    min-height: 35px;
+}
