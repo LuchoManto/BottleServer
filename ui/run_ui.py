@@ -1,13 +1,19 @@
+
+
 __author__ = 'Gaston'
 
-import bottle
+from apscheduler.scheduler import Scheduler
+
 import threading
 
-
-from bottle import debug as bottle_debug, static_file, view, response
+import bottle
 from bottle import Bottle
-from helpers.start import *
+from bottle import debug as bottle_debug, static_file, view, response, request
+
 from helpers.connection import *
+from helpers.start import *
+
+from datetime import date
 
 
 bottle.TEMPLATE_PATH.insert(0, os.path.join(os.getcwd(), 'ui/views'))
@@ -27,6 +33,10 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
 	:return:
 	"""
 
+	#start the scheduler
+	sched = Scheduler()
+	sched.start()
+
 	# If not specified search for a free port.
 	if not port:
 		port = get_free_port()
@@ -39,6 +49,17 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
 	app.run(host=host, port=port)
 
 	return
+
+def triggerStart():
+	send = "PWM"
+	parameter = {'tosend': send}
+	send_esp_1(parameter, logger)
+
+def triggerEnd():
+	send = "NTP"
+	parameter = {'tosend': send}
+	send_esp_1(parameter, logger)
+
 
 
 # Route for the home.
@@ -161,3 +182,20 @@ def serve_css_static(filename):
 @app.route('/css/externs/<filename>')
 def serve_css_static(filename):
 	return static_file(filename, root='ui/css/externs')
+
+# Post send by serial
+@app.post('/set_interval')
+def handler():
+	start = request.params.dict['start'][0]
+	end = request.params.dict['end'][0]
+	hour_start = int(start.split(":")[0])
+	min_start = int(start.split(":")[1])
+	hour_end = int(end.split(":")[0])
+	min_end = int(end.split(":")[1])
+
+	sched.add_cron_job(triggerStart, hour=hour_start, minute=min_start)
+	sched.add_cron_job(triggerEnd, hour=hour_end, minute=min_end)
+
+	return
+
+

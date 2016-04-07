@@ -95,95 +95,35 @@
         <div class="col-xs-2">
             <label class="control-label">Set mesuring interval: </label>
         </div>
-        <div class="col-xs-6">
-          <form action="" method="">
-           <div id="jsalarmclock">
-            <div><div class="leftcolumn">Start:</div> <span><select>
+        <div class="col-xs-2">
+        Start: <input type="time" id="start_interval" min="00:00" max="23:59"><br>
+        </div>
+        <div class="col-xs-2">
+        End: <input type="time" id="end_interval" min="00:00" max="23:59"><br>
+        </div>
+        <button id="set_interval_button" class="btn btn-primary">Set</button>
 
-            <option value="1">01</option>
-            <option value="1">02</option>
-            <option value="1">03</option>
-            <option value="1">04</option>
-            <option value="1">05</option>
-            <option value="1">06</option>
-            <option value="1">07</option>
-            <option value="1">08</option>
-            <option value="1">09</option>
-            <option value="1">10</option>
-            <option value="1">11</option>
-            <option value="1">12</option>
-
-            </select> Hour</span> <span><select>
-
-            <option value="1">01</option>
-            <option value="1">02</option>
-            <option value="1">03</option>
-            <option value="1">04</option>
-            <option value="1">05</option>
-            <option value="1">06</option>
-            <option value="1">07</option>
-            <option value="1">08</option>
-            <option value="1">09</option>
-            <option value="1">10</option>
-            <option value="1">11</option>
-            <option value="1">12</option>
-            <option value="1">13</option>
-            <option value="1">14</option>
-            <option value="1">15</option>
-            <option value="1">16</option>
-            <option value="1">17</option>
-            <option value="1">18</option>
-            <option value="1">19</option>
-            <option value="1">20</option>
-            <option value="1">21</option>
-            <option value="1">22</option>
-            <option value="1">23</option>
-            <option value="1">24</option>
-            <option value="1">25</option>
-            <option value="1">26</option>
-            <option value="1">27</option>
-            <option value="1">28</option>
-            <option value="1">29</option>
-            <option value="1">30</option>
-            <option value="1">31</option>
-            <option value="1">32</option>
-            <option value="1">33</option>
-            <option value="1">34</option>
-            <option value="1">35</option>
-            <option value="1">36</option>
-            <option value="1">37</option>
-            <option value="1">38</option>
-            <option value="1">39</option>
-            <option value="1">40</option>
-            <option value="1">41</option>
-            <option value="1">42</option>
-            <option value="1">43</option>
-            <option value="1">44</option>
-            <option value="1">45</option>
-            <option value="1">46</option>
-            <option value="1">47</option>
-            <option value="1">48</option>
-            <option value="1">49</option>
-            <option value="1">50</option>
-            <option value="1">52</option>
-            <option value="1">53</option>
-            <option value="1">54</option>
-            <option value="1">55</option>
-            <option value="1">56</option>
-            <option value="1">57</option>
-            <option value="1">58</option>
-            <option value="1">59</option>
-            <option value="1">60</option>
-            </select> Minutes</span>
-            <div><div class="leftcolumn">Stop:</div> <span><select></select> Hour</span> <span><select></select> Minutes</span>
-           </div>
-
-
-</div></div></form></div></div>
 </div>
 
 <!--Script when send a specific value-->
 <script>
+
+$("#set_interval_button").click(function(e){
+    e.preventDefault();
+    //Post with the button
+
+    $.ajax({
+        url: '/set_interval',
+        data: 
+        {
+            start: $('#start_interval').val(),
+            end:   $('#end_interval').val()
+        },
+        datatype: "json",
+        cache:false, type: 'POST'
+    });
+});
+
 $("#send_serial_button").click(function(e){
     e.preventDefault();
     //Post with the button
@@ -192,6 +132,21 @@ $("#send_serial_button").click(function(e){
         cache:false, type: 'POST'
     });
 });
+
+/*
+$("#send_serial_button").click(function(e){
+    e.preventDefault();
+    //Post with the button
+    $.ajax({
+        url: '/papo',
+        cache:false,
+        type: 'POST',
+        data: {
+            start: $('#start').val(),
+            end:  $('#end').val()
+        }
+    });
+});*/
 </script>
 
 <!--Script to connect/disconnect UART-->
