@@ -2,7 +2,7 @@
 
 __author__ = 'Gaston'
 
-from apscheduler.scheduler import Scheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 import threading
 
@@ -21,6 +21,7 @@ bottle.TEMPLATE_PATH.insert(0, os.path.join(os.getcwd(), 'ui/views'))
 
 app = Bottle()
 logger = create_logger()
+sched = BackgroundScheduler()
 
 
 # Function to run the UI. host='localhost'
@@ -34,7 +35,6 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
 	"""
 
 	#start the scheduler
-	sched = Scheduler()
 	sched.start()
 
 	# If not specified search for a free port.
@@ -54,6 +54,7 @@ def triggerStart():
 	send = "PWM"
 	parameter = {'tosend': send}
 	send_esp_1(parameter, logger)
+
 
 def triggerEnd():
 	send = "NTP"
@@ -193,9 +194,32 @@ def handler():
 	hour_end = int(end.split(":")[0])
 	min_end = int(end.split(":")[1])
 
-	sched.add_cron_job(triggerStart, hour=hour_start, minute=min_start)
-	sched.add_cron_job(triggerEnd, hour=hour_end, minute=min_end)
-
+	sched.add_job(triggerStart, 'cron', hour=hour_start, minute=min_start)
+	sched.add_job(triggerEnd, 'cron', hour=hour_end, minute=min_end)
 	return
 
 
+# def triggerStart():
+# 		send = "SSE,0,1"
+# 		parameter = {'tosend': send}
+# 		send_esp_1(parameter, logger)
+
+# 		send = "SGA,3"
+# 		parameter = {'tosend': send}
+# 		send_esp_1(parameter, logger)
+
+# 	send = "PWM"
+# 	parameter = {'tosend': send}
+# 	send_esp_1(parameter, logger)
+
+# 	sched.add_job(keepAlive, 'cron', second=8)
+
+# def triggerEnd():
+# 	send = "NTP"
+# 	parameter = {'tosend': send}
+# 	send_esp_1(parameter, logger)
+
+# def keepAlive():
+# 	send = "p"
+# 	parameter = {'tosend': send}
+# 	send_esp_1(parameter, logger)
