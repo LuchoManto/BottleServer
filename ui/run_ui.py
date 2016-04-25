@@ -3,6 +3,8 @@ __author__ = 'Gaston'
 from apscheduler.schedulers.background import BackgroundScheduler
 
 import threading
+import serial
+import thread
 
 import bottle
 from bottle import Bottle
@@ -17,6 +19,12 @@ bottle.TEMPLATE_PATH.insert(0, os.path.join(os.getcwd(), 'ui/views'))
 app = Bottle()
 logger = create_logger()
 sched = BackgroundScheduler()
+port = serial.Serial(port = '/dev/ttyAMA0',
+                     baudrate=9600,
+                     parity=serial.PARITY_NONE,
+                     stopbits=serial.STOPBITS_ONE,
+                     bytesize=serial.EIGHTBITS,
+                     timeout=3)
 
 
 # Function to run the UI. host='localhost'
@@ -31,6 +39,7 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
 
     #start the scheduler
     sched.start()
+
     #Creo mqtt client.
     crear_mqtt_client()
 
