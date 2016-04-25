@@ -2,10 +2,9 @@
 
 __author__ = 'Gaston'
 
-from apscheduler.schedulers.background import BackgroundScheduler
+
 
 import threading
-import serial
 import thread
 
 import bottle
@@ -14,6 +13,9 @@ from bottle import debug as bottle_debug, static_file, view, response, request
 
 from helpers.connection import *
 from helpers.start import *
+from helpers.serial_uart import *
+from helpers.scheduling import *
+
 
 from datetime import date
 
@@ -23,13 +25,6 @@ bottle.TEMPLATE_PATH.insert(0, os.path.join(os.getcwd(), 'ui/views'))
 
 app = Bottle()
 logger = create_logger()
-sched = BackgroundScheduler()
-port = serial.Serial(port = '/dev/ttyAMA0',
-                     baudrate=9600,
-                     parity=serial.PARITY_NONE,
-                     stopbits=serial.STOPBITS_ONE,
-                     bytesize=serial.EIGHTBITS,
-                     timeout=3)
 
 
 # Function to run the UI. host='localhost'
@@ -43,7 +38,7 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     """
 
     #start the scheduler
-    sched.start()
+    startSched()
 
     # If not specified search for a free port.
     if not port:
@@ -58,27 +53,7 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
 
     return
 
-def triggerStart():
-    send = "SSE,0,1"
-    parameter = {'tosend': send}
-    send_esp_1(parameter, logger)
-    send = "SGA,3"
-    parameter = {'tosend': send}
-    send_esp_1(parameter, logger)
-    send = "PWM"
-    parameter = {'tosend': send}
-    send_esp_1(parameter, logger)
 
-
-
-    # thread1 = thread.start_new_thread(keepAlive)
-    # sched.add_job(keepAlive, 'cron', second=8)
-
-
-def triggerEnd():
-    send = "NTP"
-    parameter = {'tosend': send}
-    send_esp_1(parameter, logger)
 
 
 
@@ -149,7 +124,7 @@ def send_serial(value):
     send = value
     # parameter = {'tosend': send}
     # send_esp_1(parameter, logger)
-    enviarYObtenerRespuesta(send)
+    print enviarYObtenerRespuesta(send)
     return
 
 
@@ -239,13 +214,6 @@ def handler():
 # 	parameter = {'tosend': send}
 # 	send_esp_1(parameter, logger)
 
-def keepAlive():
 
-	send = "p"
-	parameter = {'tosend': send}
-	send_esp_1(parameter, logger)
 
-def enviarYObtenerRespuesta(toSend):
-    port.write(str(toSend))
-    recv = port.readline()
-    return recv
+
