@@ -11,6 +11,6 @@ port = serial.Serial(port = '/dev/ttyAMA0',
 
 
 def enviarYObtenerRespuesta(toSend):
-    port.write(str(toSend))
+    port.write(str(toSend) + "\n")
     recv = port.readline()
     return recv

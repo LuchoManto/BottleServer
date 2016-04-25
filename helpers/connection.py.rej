@@ -1,0 +1,11 @@
+diff a/helpers/connection.py b/helpers/connection.py	(rejected hunks)
+@@ -1,7 +1,8 @@
+ __author__ = 'Gaston'
+ 
+ import time
+-
++import paho.mqtt.client as mqtt
++import threading
+ from restapiclient import *
+ from config import *
+ 
