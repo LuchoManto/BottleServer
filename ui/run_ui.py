@@ -1,5 +1,3 @@
-
-
 __author__ = 'Gaston'
 
 
@@ -19,9 +17,7 @@ from helpers.scheduling import *
 
 from datetime import date
 
-
 bottle.TEMPLATE_PATH.insert(0, os.path.join(os.getcwd(), 'ui/views'))
-
 
 app = Bottle()
 logger = create_logger()
@@ -40,6 +36,9 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     #start the scheduler
     startSched()
 
+    #Creo mqtt client.
+    crear_mqtt_client()
+
     # If not specified search for a free port.
     if not port:
         port = get_free_port()
@@ -54,64 +53,10 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     return
 
 
-
-
-
 # Route for the home.
 @app.get('/')
-@view('home')
-def home():
-    return
-
-
-# Route for the module controller.
-@app.get('/module')
-@view('module')
-def module():
-    return
-
-
-# Route for the electrostatic field sensor.
-@app.get('/motor')
 @view('motor')
-def module():
-    return
-
-
-# Route for the GPS controller.
-@app.get('/gps')
-@view('gps')
-def module():
-    return
-
-
-# Post GPS_BUTTON PRESSED
-@app.get('/button_press/<button_pressed>')
-def button_pressed(button_pressed):
-    """
-    Post cuando se preciona un boton del GPS
-    :param button_pressed: nombre del boton precionado.
-    """
-    response.content_type = 'application/json'
-
-    send = get_hex_button(button_pressed)
-    send = send.replace('x', '').replace(' ', '')
-    parameter = {'hextosend': send}
-    send_esp_1(parameter, logger, hex=True)
-
-    return gps_screen()
-
-
-# Post send hex values
-@app.post('/send_hex/<value>')
-def send_hex(value):
-    """
-    Post cuando envio un valor hex
-    :param value: valor hex a enviar las x y ' ' se quitaran.
-    """
-    send = value.replace('x', '').replace(' ', '')
-    parameter = {'hextosend': send}
-    send_esp_1(parameter, logger, hex=True)
+def home():
     return
 
 # Post send by serial
@@ -122,11 +67,7 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
-    # parameter = {'tosend': send}
-    # send_esp_1(parameter, logger)
     print enviarYObtenerRespuesta(send)
-    return
-
 
 # Post to change uart state
 @app.post('/uart_state/<value>')
@@ -136,18 +77,9 @@ def uart_state(value):
     :param value: valor a enviar en diccionario uartstate
     """
     send = value
-    parameter = {'uartstate': send}
-    send_esp_1(parameter, logger)
+    send = 'uartstate=' + str(send)
+    send_esp_1(send, logger)
     return
-
-
-# Ruta para obtener un json con los renglones del gps
-@app.get('/gpslines')
-def get_gps_lines():
-    response.content_type = 'application/json'
-    renglones = gps_screen()
-    return renglones
-
 
 # Route to get the dynamic log.
 @app.get('/logger')
@@ -191,7 +123,6 @@ def handler():
 
     sched.add_job(triggerStart, 'cron', hour=hour_start, minute=min_start)
     sched.add_job(triggerEnd, 'cron', hour=hour_end, minute=min_end)
-    return
 
 
 # def triggerStart():
@@ -213,7 +144,3 @@ def handler():
 # 	send = "NTP"
 # 	parameter = {'tosend': send}
 # 	send_esp_1(parameter, logger)
-
-
-
-
