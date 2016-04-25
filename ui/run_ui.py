@@ -246,6 +246,6 @@ def keepAlive():
 	send_esp_1(parameter, logger)
 
 def enviarYObtenerRespuesta(toSend):
-    port.write(toSend)
+    port.write(str(toSend))
     recv = port.readline()
     return recv
