@@ -67,7 +67,7 @@ def send_serial(value):
     """
     send = value
 
-    def cargar_medicion(send)
+    cargar_medicion(send)
     print enviarYObtenerRespuesta(send)
 
 # Post to change uart state
