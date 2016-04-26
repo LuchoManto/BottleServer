@@ -5,6 +5,8 @@ __author__ = 'Gaston'
 import threading
 import thread
 
+import MySQLdb
+
 import bottle
 from bottle import Bottle
 from bottle import debug as bottle_debug, static_file, view, response, request
@@ -68,6 +70,8 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
+
+    cargar_medicion(send)
     print enviarYObtenerRespuesta(send)
 
 # Post to change uart state
@@ -124,6 +128,12 @@ def handler():
 
     serial.sched.add_job(serial.triggerStart, 'cron', hour=hour_start, minute=min_start)
     serial.sched.add_job(serial.triggerEnd, 'cron', hour=hour_end, minute=min_end)
+
+def cargar_medicion(valor):
+    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    curs = db.cursor()
+    curs.execute("""INSERT INTO medicion
+        values(CURRENT_DATE(), NOW(), 1, valor)""")
 
 
 # def triggerStart():
