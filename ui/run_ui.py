@@ -12,7 +12,6 @@ from bottle import debug as bottle_debug, static_file, view, response, request
 from helpers.connection import *
 from helpers.start import *
 from helpers.serial_uart import *
-from helpers.scheduling import *
 
 
 from datetime import date
@@ -33,8 +32,13 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     :return:
     """
 
+
+
+    #create a serial instance
+    serial = ClaseSerial()
+
     #start the scheduler
-    startSched()
+    serial.startSched()
 
     # If not specified search for a free port.
     if not port:
@@ -118,8 +122,8 @@ def handler():
     hour_end = int(end.split(":")[0])
     min_end = int(end.split(":")[1])
 
-    sched.add_job(triggerStart, 'cron', hour=hour_start, minute=min_start)
-    sched.add_job(triggerEnd, 'cron', hour=hour_end, minute=min_end)
+    serial.sched.add_job(serial.triggerStart, 'cron', hour=hour_start, minute=min_start)
+    serial.sched.add_job(serial.triggerEnd, 'cron', hour=hour_end, minute=min_end)
 
 
 # def triggerStart():
