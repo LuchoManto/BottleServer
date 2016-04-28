@@ -1,7 +1,6 @@
 __author__ = 'Gaston'
 
 
-
 import threading
 import thread
 
@@ -23,6 +22,8 @@ bottle.TEMPLATE_PATH.insert(0, os.path.join(os.getcwd(), 'ui/views'))
 app = Bottle()
 logger = create_logger()
 
+#create serial object
+serial = ClaseSerial()
 
 # Function to run the UI. host='localhost'
 def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
@@ -33,11 +34,6 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     :param browser: open browser when run, default True.
     :return:
     """
-
-
-
-    #create a serial instance
-    serial = ClaseSerial()
 
     #start the scheduler
     serial.startSched()
@@ -70,9 +66,8 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
-
+    serial.enviarYObtenerRespuesta(send)
     cargar_medicion(send)
-    print enviarYObtenerRespuesta(send)
 
 # Post to change uart state
 @app.post('/uart_state/<value>')
@@ -133,7 +128,7 @@ def cargar_medicion(valor):
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
     curs.execute("""INSERT INTO medicion
-        values(CURRENT_DATE(), NOW(), 1, string(valor))""")
+        values(CURRENT_DATE(), NOW(), 1, 'valor')""")
     db.commit()
     db.close()
 
