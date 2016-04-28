@@ -4,7 +4,7 @@ __author__ = 'Gaston'
 import threading
 import thread
 
-import MySQLdb
+# import MySQLdb
 
 import bottle
 from bottle import Bottle
@@ -23,7 +23,7 @@ app = Bottle()
 logger = create_logger()
 
 #create serial object
-serial = ClaseSerial()
+serial_obj = ClaseSerial()
 
 # Function to run the UI. host='localhost'
 def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
@@ -36,7 +36,7 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     """
 
     #start the scheduler
-    serial.startSched()
+    serial_obj.startSched()
 
     # If not specified search for a free port.
     if not port:
@@ -66,8 +66,9 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
-    resp = serial.enviarYObtenerRespuesta(send)
-    cargar_comand_log(send, resp)
+    resp = serial_obj.enviarYObtenerRespuesta(send)
+    cargar_medicion(send, resp)
+
 
 # Post to change uart state
 @app.post('/uart_state/<value>')
@@ -121,8 +122,8 @@ def handler():
     hour_end = int(end.split(":")[0])
     min_end = int(end.split(":")[1])
 
-    serial.sched.add_job(serial.triggerStart, 'cron', hour=hour_start, minute=min_start)
-    serial.sched.add_job(serial.triggerEnd, 'cron', hour=hour_end, minute=min_end)
+    serial_obj.sched.add_job(serial_obj.triggerStart, 'cron', hour=hour_start, minute=min_start)
+    serial_obj.sched.add_job(serial_obj.triggerEnd, 'cron', hour=hour_end, minute=min_end)
 
 def cargar_comand_log(valor,respuesta):
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
