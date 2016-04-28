@@ -66,8 +66,8 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
-    serial.enviarYObtenerRespuesta(send)
-    cargar_medicion(send)
+    resp = serial.enviarYObtenerRespuesta(send)
+    cargar_comand_log(send, resp)
 
 # Post to change uart state
 @app.post('/uart_state/<value>')
@@ -124,11 +124,11 @@ def handler():
     serial.sched.add_job(serial.triggerStart, 'cron', hour=hour_start, minute=min_start)
     serial.sched.add_job(serial.triggerEnd, 'cron', hour=hour_end, minute=min_end)
 
-def cargar_medicion(valor):
+def cargar_comand_log(valor,respuesta):
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
-    curs.execute("""INSERT INTO medicion
-        values(CURRENT_DATE(), NOW(), 1, 'valor')""")
+    curs.execute("""INSERT INTO comandlog
+        values(CURRENT_DATE(), NOW(),%s, %s)""",(valor, respuesta,))
     db.commit()
     db.close()
 
