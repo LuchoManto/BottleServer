@@ -130,10 +130,10 @@ def handler():
     serial.sched.add_job(serial.triggerEnd, 'cron', hour=hour_end, minute=min_end)
 
 def cargar_medicion(valor):
-    db = MySQLdb.connect( host="localhost", user="tesis", passw="1234", db="rayito")
+    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
     curs.execute("""INSERT INTO medicion
-        values(CURRENT_DATE(), NOW(), 1, '1245')""")
+        values(CURRENT_DATE(), NOW(), 1, string(valor))""")
     db.commit()
     db.close()
 
