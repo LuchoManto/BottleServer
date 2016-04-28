@@ -77,3 +77,64 @@ class ClaseSerial:
         self.keepGoing = 0
 
 
+class ClaseSerialPcTemp:
+    def __init__(self):
+        self.keepGoing = 1
+        self.sched = BackgroundScheduler()
+
+    def enviarYObtenerRespuesta(self,toSend):
+        return
+
+
+    def recibir(self):
+        return
+
+    def startSched(self):
+        self.sched.start()
+
+
+    def keepAlive(self):
+        send = "p"
+        recv = self.enviarYObtenerRespuesta(send)
+        #todo: save in db: recv, in command log table
+
+
+    def triggerStart(self):
+        send = "SSE,0,1"
+        recv = self.enviarYObtenerRespuesta(send)
+        #todo: save in db: recv, in command log table
+        send = "SGA,3"
+        recv = self.enviarYObtenerRespuesta(send)
+        #todo: save in db: recv, in command log table
+        send = "PWM"
+        recv = self.enviarYObtenerRespuesta(send)
+        #todo: save in db: recv, in command log table
+
+        send = "ST"
+        recv = self.enviarYObtenerRespuesta(send)
+        #todo: save in db: recv, in command log table
+
+        self.keepGoing = 1
+        try:
+            thread.start_new_thread(self.keepGoing_start())
+        except:
+            print "Error: unable to start thread"
+
+    def triggerEnd(self):
+
+        self.keepGoing_end()
+        send = "s"
+        recv = self.enviarYObtenerRespuesta(send)
+        #todo: save in db: recv, in command log table
+        send = "NTP"
+        recv = self.enviarYObtenerRespuesta(send)
+        #todo: save in db: recv, in command log table
+
+    def keepGoing_start(self):
+        #todo: save in db: "thread started", in monitor log table
+        while self.keepGoing == 1:
+            toSave = self.recibir()
+            #todo: save in db: toSave, in sensor data table
+        #todo: save in db: "thread ended", in monitor log table
+    def keepGoing_end(self):
+        self.keepGoing = 0
