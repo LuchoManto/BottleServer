@@ -126,10 +126,12 @@ def handler():
     sched.add_job(triggerEnd, 'cron', hour=hour_end, minute=min_end)
 
 def cargar_medicion(valor):
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    db = MySQLdb.connect( host="localhost", user="tesis", passw="1234", db="rayito")
     curs = db.cursor()
     curs.execute("""INSERT INTO medicion
-        values(CURRENT_DATE(), NOW(), 1, valor)""")
+        values(CURRENT_DATE(), NOW(), 1, '1245')""")
+    db.commit()
+    db.close()
 
 
 # def triggerStart():
