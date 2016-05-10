@@ -67,7 +67,8 @@ def send_serial(value):
     """
     send = value
     resp = serial_obj.enviarYObtenerRespuesta(send)
-    cargar_medicion(send, resp)
+    cargar_medicion(send)
+    cargar_comand_log(send, resp)
 
 
 # Post to change uart state
@@ -136,8 +137,8 @@ def cargar_comand_log(valor,respuesta):
 def cargar_medicion(valor):
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
-    curs.execute("""INSERT INTO comandlog
-            values(CURRENT_DATE(), NOW(),%s, %s)""", (valor,))
+    curs.execute("""INSERT INTO medicion
+            values(CURRENT_DATE(), NOW(),%s)""", (valor,))
     db.commit()
     db.close()
 

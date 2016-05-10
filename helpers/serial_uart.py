@@ -5,6 +5,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import thread
 
 class ClaseSerial:
+
+    global buffer_intermedio
+    buffer_intermedio=[]
+
     def __init__(self):
         self.port = serial.Serial(port = '/dev/ttyAMA0',
                          baudrate=9600,
@@ -70,9 +74,16 @@ class ClaseSerial:
     def keepGoing_start(self):
         #todo: save in db: "thread started", in monitor log table
         while self.keepGoing == 1:
-            toSave = self.recibir()
-            #todo: save in db: toSave, in sensor data table
-        #todo: save in db: "thread ended", in monitor log table
+            #Miro en un buffer compartido entre el productor y consumidor,
+            #si no esta vacio entonces puedo recibir, sino tendre que esperar
+            #a que vuelva a tener algo dentro.
+            send = 'e'
+            toprove = self.enviarYObtenerRespuesta(send)
+            if toprove != 504:
+                toSave = self.recibir()
+                #todo: save in db: toSave, in sensor data table
+                #todo: save in db: "thread ended", in monitor log table
+
     def keepGoing_end(self):
         self.keepGoing = 0
 
