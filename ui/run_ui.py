@@ -23,7 +23,7 @@ app = Bottle()
 logger = create_logger()
 
 #create serial object
-serial_obj = ClaseSerial()
+serial_obj = ClaseSerialPcTemp()
 
 # Function to run the UI. host='localhost'
 def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
@@ -67,7 +67,7 @@ def send_serial(value):
     """
     send = value
     resp = serial_obj.enviarYObtenerRespuesta(send)
-    cargar_medicion(send, resp)
+    cargar_comand_log(send, resp)
 
 
 # Post to change uart state
@@ -121,7 +121,6 @@ def handler():
     min_start = int(start.split(":")[1])
     hour_end = int(end.split(":")[0])
     min_end = int(end.split(":")[1])
-
     serial_obj.sched.add_job(serial_obj.triggerStart, 'cron', hour=hour_start, minute=min_start)
     serial_obj.sched.add_job(serial_obj.triggerEnd, 'cron', hour=hour_end, minute=min_end)
 
