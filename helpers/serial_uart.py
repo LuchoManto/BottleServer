@@ -6,6 +6,10 @@ import thread
 import time
 
 class ClaseSerial:
+
+    global buffer_intermedio
+    buffer_intermedio=[]
+
     def __init__(self):
         self.port = serial.Serial(port = '/dev/ttyAMA0',
                          baudrate=9600,
@@ -92,15 +96,10 @@ class ClaseSerial:
                 #break loop
         #endloop
 
-
-
-
         while self.keepGoing == 1:
             toSave = self.recibir()
             #todo: save in db: toSave, in sensor data table
-        #todo: save in db: "thread ended", in monitor log table
-
-
+            #todo: save in db: "thread ended", in monitor log table
 
     def keepGoing_end(self):
         self.keepGoing = 0
@@ -221,5 +220,5 @@ class ClaseSerialPcTemp:
         return
     def keepGoing_end(self):
         self.keepGoing = 0
-        print "no more thread"
+        # print "no more thread"
         return

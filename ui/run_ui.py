@@ -4,7 +4,7 @@ __author__ = 'Gaston'
 import threading
 import thread
 
-# import MySQLdb
+ #import MySQLdb
 
 import bottle
 from bottle import Bottle
@@ -67,6 +67,8 @@ def send_serial(value):
     """
     send = value
     resp = serial_obj.enviarYObtenerRespuesta(send)
+
+    cargar_medicion(send)
     cargar_comand_log(send, resp)
 
 
@@ -129,6 +131,14 @@ def cargar_comand_log(valor,respuesta):
     curs = db.cursor()
     curs.execute("""INSERT INTO comandlog
         values(CURRENT_DATE(), NOW(),%s, %s)""",(valor, respuesta,))
+    db.commit()
+    db.close()
+
+def cargar_medicion(valor):
+    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    curs = db.cursor()
+    curs.execute("""INSERT INTO medicion
+            values(CURRENT_DATE(), NOW(),%s)""", (valor,))
     db.commit()
     db.close()
 
