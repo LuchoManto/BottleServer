@@ -2,23 +2,23 @@ __author__ = 'Luciano'
 
 import serial
 from apscheduler.schedulers.background import BackgroundScheduler
-import thread
+import threading
 import time
+import collections
 
 class ClaseSerial:
 
-    global buffer_intermedio
-    buffer_intermedio=[]
 
     def __init__(self):
         self.port = serial.Serial(port = '/dev/ttyAMA0',
-                         baudrate=9600,
-                         parity=serial.PARITY_NONE,
-                         stopbits=serial.STOPBITS_ONE,
-                         bytesize=serial.EIGHTBITS,
-                         timeout=3)
+                                  baudrate=9600,
+                                  parity=serial.PARITY_NONE,
+                                  stopbits=serial.STOPBITS_ONE,
+                                  bytesize=serial.EIGHTBITS,
+                                  timeout=3)
         self.keepGoing = 1
         self.sched = BackgroundScheduler()
+        self.buffer_mediciones = collections.deque(maxlen=10)
 
     def enviarYObtenerRespuesta(self,toSend):
         self.port.write(str(toSend) + "\n")
@@ -59,9 +59,22 @@ class ClaseSerial:
 
         self.keepGoing = 1
         try:
-            thread.start_new_thread(self.keepGoing_start())
+            #thread.start_new_thread(self.keepGoing_start())
+            t1 = threading.Thread(name='producer',
+                        target=self.loop_productor,
+                        args=(self))
+
         except:
             print "Error: unable to start thread"
+
+        try:
+            t1 = threading.Thread(name='consumer',
+                        target=self.loop_consumidor,
+                        args=(self))
+
+        except:
+            print "Error: unable to start thread"
+
 
     def triggerEnd(self):
 
@@ -74,26 +87,18 @@ class ClaseSerial:
         #todo: save in db: recv, in command log table
 
     #thread que recibe los datos desde la uart y los guarda en el buffer. PRODUCTOR
-    def keepGoing_start(self):
+    def loop_productor(self):
         #todo: guardar en la base de datos: "producer thread started", en la tabla de log del monitor
         #todo: vaciar buffer
 
-        #todo: crear thread que ejecute la funcion guardarDatosContinuos
-        #todo: guardar en la base de datos: "consumer thread started", en la tabla de log del monitor
-
         #loop forever:
-            #if buffer lleno
-                #sleep
-                #volver al comienzo del loop (creo que se hace con un continue)
-            #else
-                #guardar en buffer
-                #despertar thread consumidor
-            #endif
-            #if sigue conversion
-                #volver al loop
-            #else
-                # guardar "producer thread ended" en la db
-                #break loop
+        #guardar en buffer
+        #despertar thread consumidor
+        #if sigue conversion
+        #volver al loop
+        #else
+        # guardar "producer thread ended" en la db
+        #break loop
         #endloop
 
         while self.keepGoing == 1:
@@ -105,21 +110,20 @@ class ClaseSerial:
         self.keepGoing = 0
         #todo: guardar en la base de datos que se activo el fin de adquisicion de mediciones
 
-    #thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
-    #def guardarDatosContinuos(self):
-        #loop forever:
-            #if buffer vacio
-                    #if termino conversion
-                        #guardar "consumer thread ended" en la db
-                        #break loop
-                    #else sleep
-                    #endif
-            #else
-                #hacer pop al buffer
-                #intentar despertar al thread productor
-                #guardar dato obtenido en la base de datos
-            #endif
-        #endloop
+
+
+    def loop_consumidor(self): #thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
+        while 1:
+            if self.buffer_mediciones:
+                if self.keepGoing == 0:
+                    #todo: guardar "termino thread consumidor" en la db, en la tabla de log
+                    break
+                else:
+                    #todo: sleep hasta que haya algo en el buffer
+            else:
+                self.buffer_mediciones.popleft()
+                #todo: despertar al otro thread
+                #todo: guardar "termino thread consumidor" en la db, en la tabla de mediciones
 
 
 
