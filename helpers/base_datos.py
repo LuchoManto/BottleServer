@@ -1,0 +1,19 @@
+__author__ = 'Ignacio'
+
+import MySQLdb
+
+def cargar_comand_log(valor,respuesta):
+    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    curs = db.cursor()
+    curs.execute("""INSERT INTO comandlog
+        values(CURRENT_DATE(), NOW(),%s, %s)""",(valor, respuesta,))
+    db.commit()
+    db.close()
+
+def cargar_medicion(valor):
+    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    curs = db.cursor()
+    curs.execute("""INSERT INTO medicion
+            values(CURRENT_DATE(), NOW(),%s)""", (valor,))
+    db.commit()
+    db.close()

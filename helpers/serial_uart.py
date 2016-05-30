@@ -2,8 +2,10 @@ __author__ = 'Luciano'
 
 import serial
 from apscheduler.schedulers.background import BackgroundScheduler
-import thread
+import threading
 import time
+
+from helpers.base_datos import*
 
 class ClaseSerial:
 
@@ -43,23 +45,31 @@ class ClaseSerial:
 
     def triggerStart(self):
         print "disparo"
+
         send = "SSE,0,1"
         recv = self.enviarYObtenerRespuesta(send)
+        cargar_comand_log(send, recv)
         #todo: save in db: recv, in command log table
+
         send = "SGA,3"
         recv = self.enviarYObtenerRespuesta(send)
+        cargar_comand_log(send, recv)
         #todo: save in db: recv, in command log table
+
         send = "PWM"
         recv = self.enviarYObtenerRespuesta(send)
+        cargar_comand_log(send, recv)
         #todo: save in db: recv, in command log table
 
         send = "ST"
         recv = self.enviarYObtenerRespuesta(send)
+        cargar_comand_log(send, recv)
         #todo: save in db: recv, in command log table
 
         self.keepGoing = 1
         try:
-            thread.start_new_thread(self.keepGoing_start())
+            thread1 = threading.Thread(target=keepGoing_start())
+            thread1.start()
         except:
             print "Error: unable to start thread"
 
@@ -68,38 +78,41 @@ class ClaseSerial:
         self.keepGoing_end()
         send = "s"
         recv = self.enviarYObtenerRespuesta(send)
+        cargar_comand_log(send, recv)
         #todo: save in db: recv, in command log table
         send = "NTP"
         recv = self.enviarYObtenerRespuesta(send)
+        cargar_comand_log(send, recv)
         #todo: save in db: recv, in command log table
 
     #thread que recibe los datos desde la uart y los guarda en el buffer. PRODUCTOR
     def keepGoing_start(self):
+
         #todo: guardar en la base de datos: "producer thread started", en la tabla de log del monitor
         #todo: vaciar buffer
 
         #todo: crear thread que ejecute la funcion guardarDatosContinuos
         #todo: guardar en la base de datos: "consumer thread started", en la tabla de log del monitor
 
+        while 1:
+            toSave = self.recibir()
+            buffer_mediciones.append(toSave)
+            e.set()
+            if toSave == 03000:
+                cargar_comand_log('s', toSave)
+
+
+
+
         #loop forever:
-            #if buffer lleno
-                #sleep
-                #volver al comienzo del loop (creo que se hace con un continue)
-            #else
-                #guardar en buffer
-                #despertar thread consumidor
-            #endif
+            #guardar en buffer
+            #despertar thread consumidor
             #if sigue conversion
                 #volver al loop
             #else
-                # guardar "producer thread ended" en la db
+                # guardar "producer thread ended" en la tabla de log.
                 #break loop
         #endloop
-
-        while self.keepGoing == 1:
-            toSave = self.recibir()
-            #todo: save in db: toSave, in sensor data table
-            #todo: save in db: "thread ended", in monitor log table
 
     def keepGoing_end(self):
         self.keepGoing = 0
