@@ -13,6 +13,7 @@ from bottle import debug as bottle_debug, static_file, view, response, request
 from helpers.connection import *
 from helpers.start import *
 from helpers.serial_uart import *
+from helpers.base_datos import*
 
 
 from datetime import date
@@ -66,8 +67,10 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
+    if send == 'ST':
+        #llamar a la funcion que va a llamar a los hilos.
+        serial_obj.start_conversion_ST()
     resp = serial_obj.enviarYObtenerRespuesta(send)
-
     cargar_medicion(send)
     cargar_comand_log(send, resp)
 
@@ -125,23 +128,6 @@ def handler():
     min_end = int(end.split(":")[1])
     serial_obj.sched.add_job(serial_obj.triggerStart, 'cron', hour=hour_start, minute=min_start)
     serial_obj.sched.add_job(serial_obj.triggerEnd, 'cron', hour=hour_end, minute=min_end)
-
-def cargar_comand_log(valor,respuesta):
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
-    curs = db.cursor()
-    curs.execute("""INSERT INTO comandlog
-        values(CURRENT_DATE(), NOW(),%s, %s)""",(valor, respuesta,))
-    db.commit()
-    db.close()
-
-def cargar_medicion(valor):
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
-    curs = db.cursor()
-    curs.execute("""INSERT INTO medicion
-            values(CURRENT_DATE(), NOW(),%s)""", (valor,))
-    db.commit()
-    db.close()
-
 
 # def triggerStart():
 # 		send = "SSE,0,1"
