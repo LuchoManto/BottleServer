@@ -20,23 +20,22 @@ class ClaseSerial:
                                   timeout=3)
         self.keepGoing = 1
         self.sched = BackgroundScheduler()
-        self.buffer_mediciones = collections.deque(maxlen=10)
+        self.buffer_mediciones = collections.deque(maxlen=20)
         self.e = threading.Event()
 
     def enviarYObtenerRespuesta(self,toSend):
         self.port.write(str(toSend) + "\n")
-	time.sleep(1)
-        recv = self.port.read(10)
+	    time.sleep(1)
+        recv = int(self.port.readline())
+        time.sleep(1)
         return recv
 
-
     def recibir(self):
-        recv = self.port.read(10)
+        recv = int(self.port.readline())
         return recv
 
     def startSched(self):
         self.sched.start()
-
 
     def keepAlive(self):
         send = "p"
