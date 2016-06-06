@@ -75,7 +75,7 @@ def send_serial(value):
         serial_obj.start_conversion_ST()
     if send == 'GSE,0':
         time.sleep(1)
-	    med = serial_obj.recibir()
+        med = serial_obj.recibir()
         cargar_medicion('0',med)
 
 

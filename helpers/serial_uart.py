@@ -17,7 +17,7 @@ class ClaseSerial:
                                   parity=serial.PARITY_NONE,
                                   stopbits=serial.STOPBITS_ONE,
                                   bytesize=serial.EIGHTBITS,
-                                  timeout=3)
+                                  timeout=2)
         self.keepGoing = 1
         self.sched = BackgroundScheduler()
         self.buffer_mediciones = collections.deque(maxlen=20)
@@ -25,13 +25,14 @@ class ClaseSerial:
 
     def enviarYObtenerRespuesta(self,toSend):
         self.port.write(str(toSend) + "\n")
-	    time.sleep(1)
-        recv = int(self.port.readline())
-        time.sleep(1)
+	time.sleep(1)
+        recv = self.port.read(30)
+        time.sleep(2)
         return recv
 
     def recibir(self):
-        recv = int(self.port.readline())
+        recv = self.port.read(30)
+        time.sleep(2)
         return recv
 
     def startSched(self):
@@ -164,6 +165,6 @@ class ClaseSerial:
                     #todo: sleep hasta que haya algo en el buffer
             else:
                 toSave=self.buffer_mediciones.popleft()
-                cargar_medicion(toSave)
+                cargar_medicion("0",toSave)
                 #todo: despertar al otro thread
                 #todo: guardar "termino thread consumidor" en la db, en la tabla de mediciones
