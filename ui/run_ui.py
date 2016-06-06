@@ -2,7 +2,7 @@ __author__ = 'Gaston'
 
 
 import threading
-import thread
+import time
 
  #import MySQLdb
 
@@ -24,7 +24,7 @@ app = Bottle()
 logger = create_logger()
 
 #create serial object
-serial_obj = ClaseSerialPcTemp()
+serial_obj = ClaseSerial()
 
 # Function to run the UI. host='localhost'
 def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
@@ -67,12 +67,16 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
+    resp = serial_obj.enviarYObtenerRespuesta(send)
+    time.sleep(1.5)
+    cargar_comand_log(send,resp)
     if send == 'ST':
         #llamar a la funcion que va a llamar a los hilos.
         serial_obj.start_conversion_ST()
-    resp = serial_obj.enviarYObtenerRespuesta(send)
-    cargar_medicion(send)
-    cargar_comand_log(send, resp)
+    if send == 'GSE,0':
+        time.sleep(1)
+	med = serial_obj.recibir()
+    	cargar_medicion('0',med)
 
 
 # Post to change uart state

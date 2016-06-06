@@ -25,12 +25,13 @@ class ClaseSerial:
 
     def enviarYObtenerRespuesta(self,toSend):
         self.port.write(str(toSend) + "\n")
-        recv = self.port.readline()
+	time.sleep(1)
+        recv = self.port.read(10)
         return recv
 
 
     def recibir(self):
-        recv = self.port.readline()
+        recv = self.port.read(10)
         return recv
 
     def startSched(self):
@@ -48,7 +49,7 @@ class ClaseSerial:
             # thread.start_new_thread(self.keepGoing_start())
             t1 = threading.Thread(name='producer',
                                   target=self.loop_productor,
-                                  args=(self))
+                                  args=[])
             t1.start()
 
         except:
@@ -57,7 +58,7 @@ class ClaseSerial:
         try:
             t2 = threading.Thread(name='consumer',
                                   target=self.loop_consumidor,
-                                  args=(self))
+                                  args=[])
             t2.start()
         except:
             print "Error: unable to start thread"
@@ -90,7 +91,7 @@ class ClaseSerial:
             #thread.start_new_thread(self.keepGoing_start())
             t1 = threading.Thread(name='producer',
                         target=self.loop_productor,
-                        args=(self))
+                        args=[])
             t1.start()
 
         except:
@@ -99,7 +100,7 @@ class ClaseSerial:
         try:
             t2 = threading.Thread(name='consumer',
                         target=self.loop_consumidor,
-                        args=(self))
+                        args=[])
             t2.start()
         except:
             print "Error: unable to start thread"
@@ -154,7 +155,7 @@ class ClaseSerial:
 
     def loop_consumidor(self): #thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
         while 1:
-            if self.buffer_mediciones:
+            if not  self.buffer_mediciones:
                 if self.keepGoing == 0:
                     cargar_comand_log('consumer thread ended', '0')
                     #todo: guardar "termino thread consumidor" en la db, en la tabla de log

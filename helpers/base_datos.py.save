@@ -10,11 +10,11 @@ def cargar_comand_log(valor,respuesta):
     db.commit()
     db.close()
 
-def cargar_medicion(pin, valor):
+def cargar_medicion(valor, pin):
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
     curs.execute("""INSERT INTO medicion
-            values(CURRENT_DATE(), NOW(), %s,%s)""", (pin, valor,))
+            values(CURRENT_DATE(), NOW(),%s,%s)""", (pin,valor,))
     db.commit()
     db.close()
 
