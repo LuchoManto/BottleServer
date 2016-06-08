@@ -1,4 +1,4 @@
-__author__ = 'Luciano'
+__author__ = 'Luciano Mantovani & Ignacio Sambataro'
 
 import serial
 from apscheduler.schedulers.background import BackgroundScheduler
