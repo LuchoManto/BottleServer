@@ -2,7 +2,7 @@ __author__ = 'Gaston'
 
 
 import threading
-import thread
+import time
 
  #import MySQLdb
 
@@ -13,6 +13,7 @@ from bottle import debug as bottle_debug, static_file, view, response, request
 from helpers.connection import *
 from helpers.start import *
 from helpers.serial_uart import *
+from helpers.base_datos import*
 
 
 from datetime import date
@@ -23,7 +24,7 @@ app = Bottle()
 logger = create_logger()
 
 #create serial object
-serial_obj = ClaseSerialPcTemp()
+serial_obj = ClaseSerial()
 
 # Function to run the UI. host='localhost'
 def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
@@ -67,9 +68,15 @@ def send_serial(value):
     """
     send = value
     resp = serial_obj.enviarYObtenerRespuesta(send)
-
-    cargar_medicion(send)
-    cargar_comand_log(send, resp)
+    time.sleep(1)
+    cargar_comand_log(send,resp)
+    if send == 'ST':
+        #llamar a la funcion que va a llamar a los hilos.
+        serial_obj.start_conversion_ST()
+    if send == 'GSE,0':
+        time.sleep(1)
+        med = serial_obj.recibir()
+        cargar_medicion('0',med)
 
 
 # Post to change uart state
@@ -125,23 +132,6 @@ def handler():
     min_end = int(end.split(":")[1])
     serial_obj.sched.add_job(serial_obj.triggerStart, 'cron', hour=hour_start, minute=min_start)
     serial_obj.sched.add_job(serial_obj.triggerEnd, 'cron', hour=hour_end, minute=min_end)
-
-def cargar_comand_log(valor,respuesta):
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
-    curs = db.cursor()
-    curs.execute("""INSERT INTO comandlog
-        values(CURRENT_DATE(), NOW(),%s, %s)""",(valor, respuesta,))
-    db.commit()
-    db.close()
-
-def cargar_medicion(valor):
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
-    curs = db.cursor()
-    curs.execute("""INSERT INTO medicion
-            values(CURRENT_DATE(), NOW(),%s)""", (valor,))
-    db.commit()
-    db.close()
-
 
 # def triggerStart():
 # 		send = "SSE,0,1"
