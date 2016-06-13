@@ -16,4 +16,3 @@ def generate_timestamp(current_relative_ts, last_relative_ts, base_ts):
 
 def get_pi_timestamp_ms():
     return int(round(time.time() * 1000)) #returns a strimg with a raw timestamp measured in miliseconds
-
