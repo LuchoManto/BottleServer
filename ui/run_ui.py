@@ -68,14 +68,15 @@ def send_serial(value):
     """
     send = value
     resp = serial_obj.enviarYObtenerRespuesta(send)
-    time.sleep(1)
-    cargar_comand_log(send,resp)
+    resp1 = resp[-5:]
+    cargar_comand_log(send,resp1)
     if send == 'ST':
         #llamar a la funcion que va a llamar a los hilos.
         serial_obj.start_conversion_ST()
     if send == 'GSE,0':
         time.sleep(1)
         med = serial_obj.recibir()
+	med1 = med[5:]
         cargar_medicion('0',med)
 
 
