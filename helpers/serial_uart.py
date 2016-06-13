@@ -171,7 +171,7 @@ class ClaseSerial:
                     #todo: sleep hasta que haya algo en el buffer
             else:
                 toSave=self.buffer_mediciones.popleft()
-		toSave1 = toSave[:5]
+		toSave1 = toSave[5]
                 cargar_medicion("0",toSave)
                 #todo: despertar al otro thread
                 #todo: guardar "termino thread consumidor" en la db, en la tabla de mediciones
