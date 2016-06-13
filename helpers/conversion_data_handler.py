@@ -10,7 +10,7 @@ def retrieve_timestamp(data):
 
 def generate_timestamp(current_relative_ts, last_relative_ts, base_ts):
     #base_ts is obtained w/get_pi_tiemstamp at begginning of continuous conversion
-    timestamp_ms = int(last_relative_ts) - int(current_relative_ts) + int(base_ts)
+    timestamp_ms = int(current_relative_ts) - int(last_relative_ts) + int(base_ts)
 
     return datetime.datetime.fromtimestamp(timestamp_ms / 1000) #returns a string with the formatted timestamp
 

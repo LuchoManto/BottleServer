@@ -73,11 +73,11 @@ def send_serial(value):
     if send == 'ST':
         #llamar a la funcion que va a llamar a los hilos.
         serial_obj.start_conversion_ST()
-    if send == 'GSE,0':
-        time.sleep(1)
-        med = serial_obj.recibir()
-	med1 = med[5:]
-        cargar_medicion('0',med)
+    #if send == 'GSE,0':
+    #   time.sleep(1)
+    #    med = serial_obj.recibir()
+	#    med1 = med[5:]
+    #    cargar_medicion('0',med1)
 
 
 # Post to change uart state

@@ -7,6 +7,7 @@ import time
 import collections
 
 from helpers.base_datos import*
+from helpers.conversion_data_handler import*
 
 class ClaseSerial:
 
@@ -28,8 +29,8 @@ class ClaseSerial:
         self.port.flushInput()
         self.port.flushOutput()
         self.port.write(str(toSend) + "\n")
-	time.sleep(1)
-	self.port.flushOutput()
+	    time.sleep(1)
+	    self.port.flushOutput()
         recv = self.port.read(20)
         time.sleep(1)
         return recv
@@ -135,10 +136,12 @@ class ClaseSerial:
 
         while 1:
             toSave = self.recibir()
+            toSave3 = retrieve_conversion(toSave)
             self.e.set()
-            if toSave == 03000:
+            if toSave3 == 03000:
                 #cargar_comand_log('s', toSave)
                 cargar_comand_log('producer thread ended', toSave)
+                self.e.wait()
                 break
             else:
                 self.buffer_mediciones.append(toSave)
@@ -160,8 +163,9 @@ class ClaseSerial:
 
 
     def loop_consumidor(self): #thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
+        last=0
         while 1:
-            if not  self.buffer_mediciones:
+            if not self.buffer_mediciones:
                 if self.keepGoing == 0:
                     cargar_comand_log('consumer thread ended', '0')
                     #todo: guardar "termino thread consumidor" en la db, en la tabla de log
@@ -171,7 +175,11 @@ class ClaseSerial:
                     #todo: sleep hasta que haya algo en el buffer
             else:
                 toSave=self.buffer_mediciones.popleft()
-		toSave1 = toSave[5]
-                cargar_medicion("0",toSave1)
+                toSave1 = retrieve_conversion(toSave)
+                current = retrieve_timestamp(toSave)
+                base = get_pi_timestamp_ms()
+                tstamp = generate_timestamp(current, last, base)
+                cargar_medicion(tstamp,"0",toSave1)
+                last = current
                 #todo: despertar al otro thread
                 #todo: guardar "termino thread consumidor" en la db, en la tabla de mediciones
