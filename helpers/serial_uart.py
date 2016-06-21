@@ -29,8 +29,8 @@ class ClaseSerial:
         self.port.flushInput()
         self.port.flushOutput()
         self.port.write(str(toSend) + "\n")
-	    time.sleep(1)
-	    self.port.flushOutput()
+        time.sleep(1)
+	self.port.flushOutput()
         recv = self.port.read(20)
         time.sleep(1)
         return recv
@@ -137,7 +137,8 @@ class ClaseSerial:
         while 1:
             toSave = self.recibir()
             toSave3 = retrieve_conversion(toSave)
-            self.e.set()
+            base = get_pi_timestamp_ms()
+	    self.e.set()
             if toSave3 == 03000:
                 #cargar_comand_log('s', toSave)
                 cargar_comand_log('producer thread ended', toSave)
@@ -163,7 +164,7 @@ class ClaseSerial:
 
 
     def loop_consumidor(self): #thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
-        last=0
+        last = "0"
         while 1:
             if not self.buffer_mediciones:
                 if self.keepGoing == 0:
