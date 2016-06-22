@@ -11,7 +11,6 @@ from helpers.conversion_data_handler import*
 
 class ClaseSerial:
 
-    
 
     def __init__(self):
         self.port = serial.Serial(port = '/dev/ttyAMA0',
@@ -27,10 +26,9 @@ class ClaseSerial:
 
     def enviarYObtenerRespuesta(self,toSend):
         #self.port.Open()
+        
         self.port.flushInput()
         self.port.flushOutput()
-	if (toSend == 's'):
-	    self.e.wait()
         self.port.write(str(toSend) + "\n")
         time.sleep(1)
 	self.port.flushOutput()
@@ -53,9 +51,6 @@ class ClaseSerial:
         recv = self.enviarYObtenerRespuesta(send)
         cargar_comand_log(send, recv)
         #todo: save in db: recv, in command log table
-    def kill_thread(self):
-	t1.exit()
-	t2.exit()
 
     def start_conversion_ST(self):
         try:
@@ -142,15 +137,16 @@ class ClaseSerial:
 
         while 1:
             toSave = self.recibir()
-	    #toSave3 = retrieve_conversion(toSave)
-	    if toSave == '':
-                cargar_comand_log('Producer ended', 03000)
-                #self.e.wait()
+            toSave3 = retrieve_conversion(toSave)
+            base = get_pi_timestamp_ms()
+	    self.e.set()
+            if toSave3 == 03000:
+                #cargar_comand_log('s', toSave)
+                cargar_comand_log('producer thread ended', toSave)
+                self.e.wait()
                 break
             else:
                 self.buffer_mediciones.append(toSave)
-            #toSave3 = retrieve_conversion(toSave)
-            self.e.set()
 
         #loop forever:
         #guardar en buffer
@@ -175,21 +171,17 @@ class ClaseSerial:
                 if self.keepGoing == 0:
                     cargar_comand_log('consumer thread ended', '0')
                     #todo: guardar "termino thread consumidor" en la db, en la tabla de log
-                    self.e.wait()
-		    break
+                    break
                 else:
                     self.e.wait()
                     #todo: sleep hasta que haya algo en el buffer
             else:
                 toSave=self.buffer_mediciones.popleft()
-		if toSave == '':
-                    break
-		else:
-                    toSave1 = retrieve_conversion(toSave)
-		    current = retrieve_timestamp(toSave)
-                    base = get_pi_timestamp_ms()
-                    tstamp = generate_timestamp(current, last, base)
-                    cargar_medicion(tstamp,"0",toSave1)
-                    last = current
+                toSave1 = retrieve_conversion(toSave)
+                current = retrieve_timestamp(toSave)
+                base = get_pi_timestamp_ms()
+                tstamp = generate_timestamp(current, last, base)
+                cargar_medicion(tstamp,"0",toSave1)
+                last = current
                 #todo: despertar al otro thread
                 #todo: guardar "termino thread consumidor" en la db, en la tabla de mediciones

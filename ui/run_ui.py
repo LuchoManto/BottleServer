@@ -67,12 +67,15 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
+    #operacion,pin,vel = send.split(",")
     resp = serial_obj.enviarYObtenerRespuesta(send)
     resp1 = resp[-5:]
     cargar_comand_log(send,resp1)
     if send == 'ST':
         #llamar a la funcion que va a llamar a los hilos.
         serial_obj.start_conversion_ST()
+    elif send == 's':
+	serial_obj.kill_threads()
     #if send == 'GSE,0':
     #   time.sleep(1)
     #    med = serial_obj.recibir()
