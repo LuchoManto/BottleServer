@@ -184,7 +184,7 @@ class ClaseSerial:
 	while e.is_set():
             if self.buffer_mediciones:
 	    	toSave = self.buffer_mediciones.popleft()
-	        cargar_comand_log('toSave',toSave)
+	        #cargar_comand_log('toSave',toSave)
 		if not toSave:
 		    cargar_comand_log('wait es',self.waitt)
 		    if self.waitt == 1:
@@ -194,7 +194,8 @@ class ClaseSerial:
 		else:
 	    	    toSave1 = retrieve_conversion(toSave)
             	    current = retrieve_timestamp(toSave)
-            	    base = get_pi_timestamp_ms()
+            	    cargar_comand_log('medicion es', toSave1)
+		    base = get_pi_timestamp_ms()
             	    tstamp = generate_timestamp(current, last, base)
             	    cargar_medicion(tstamp, "0", toSave1)
             	    last = current
