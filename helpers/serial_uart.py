@@ -42,7 +42,8 @@ class ClaseSerial:
     def recibir(self):
         self.port.flushInput()
         self.port.flushOutput()
-        recv = self.port.read(20)
+	time.sleep(1)
+        recv = self.port.readline()
         time.sleep(1)
         return recv
 
@@ -155,6 +156,9 @@ class ClaseSerial:
 		#break
 	    #else:
 	    toSave = self.recibir()
+            cargar_comand_log('recibe', toSave)
+            toSave.split(",")[0]
+     	    time.sleep(0.5)
 	    self.buffer_mediciones.append(toSave)
 	    e.set()
             #toSave3 = retrieve_conversion(toSave)

@@ -5,13 +5,14 @@ import datetime
 
 def retrieve_conversion(data):
     #data.split(".")[0]
-    #data[0].replace('\r','').replace('\n','')
-    return data[11:-3] #el dato es medicion.tstamp.medicion.2basuras, entonces saco la primera medicion mas el tstamp y las dos basuras, tambien los puntos.
+    #data[0].replace('\r',' ').replace('\n',' ')
+    return data[:5] #el dato es medicion.tstamp.medicion.2basuras, entonces saco la primera medicion mas el tstamp y las dos basuras, tambien los puntos.
     #return data[0]
 def retrieve_timestamp(data):
     #data.split(".")[1]
-    return data[6,8]  #Al igual que en retrieve_conversion(), solo que ahora dejo el tstamp y elimino el resto.
-    #return data[1].replace("\r","").replace("\n","")
+       #Al igual que en retrieve_conversion(), solo que ahora dejo el tstamp y elimino el resto.
+    #return dato1    
+    return data[6:].replace("\r"," ").replace("\n"," ")
 
 def generate_timestamp(current_relative_ts, last_relative_ts, base_ts):
     #base_ts is obtained w/get_pi_tiemstamp at begginning of continuous conversion
