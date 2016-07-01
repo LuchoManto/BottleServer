@@ -5,6 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import threading
 import time
 import collections
+import re
 
 from helpers.base_datos import*
 from helpers.conversion_data_handler import*
@@ -29,7 +30,7 @@ class ClaseSerial:
         self.waitt2 = 0
 
     def enviarYObtenerRespuesta(self,toSend):
-        #self.port.Open()
+        # self.port.Open()
         self.port.flushInput()
         self.port.flushOutput()
         self.port.write(str(toSend) + "\n")
@@ -157,9 +158,9 @@ class ClaseSerial:
 	    #else:
 	    toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
-            toSave.split(",")[0]
      	    time.sleep(0.5)
-	    self.buffer_mediciones.append(toSave)
+            if check_entry(toSave):
+                self.buffer_mediciones.append(toSave)
 	    e.set()
             #toSave3 = retrieve_conversion(toSave)
             #self.e.set()
@@ -214,3 +215,10 @@ class ClaseSerial:
 		    break
                     #todo: sleep hasta que haya algo en el buffer
 	cargar_comand_log('salio del while','bien')
+
+
+def check_entry(data):
+    pattern = re.compile("^\d{5,5}\W\d{5,5}$")
+    return pattern.match(data)
+
+
