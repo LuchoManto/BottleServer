@@ -24,9 +24,9 @@ class ClaseSerial:
         self.sched = BackgroundScheduler()
         self.buffer_mediciones = collections.deque(maxlen=20)
         self.e = threading.Event()
-	self.st1 = 0
-	self.waitt = 0
-	self.waitt2 = 0
+        self.st1 = 0
+        self.waitt = 0
+        self.waitt2 = 0
 
     def enviarYObtenerRespuesta(self,toSend):
         #self.port.Open()
@@ -34,7 +34,7 @@ class ClaseSerial:
         self.port.flushOutput()
         self.port.write(str(toSend) + "\n")
         time.sleep(1)
-	self.port.flushOutput()
+        self.port.flushOutput()
         recv = self.port.read(20)
         time.sleep(1)
         return recv
@@ -113,18 +113,14 @@ class ClaseSerial:
         self.keepGoing = 1
         try:
             #thread.start_new_thread(self.keepGoing_start())
-            t1 = threading.Thread(name='producer',
-                        target=self.loop_productor,
-                        args=[])
+            t1 = threading.Thread(name='producer', target=self.loop_productor, args=(self.e,))
             t1.start()
 
         except:
             print "Error: unable to start thread"
 
         try:
-            t2 = threading.Thread(name='consumer',
-                        target=self.loop_consumidor,
-                        args=[])
+            t2 = threading.Thread(name='consumer', target=self.loop_consumidor, args=(self.e,))
             t2.start()
         except:
             print "Error: unable to start thread"
@@ -140,9 +136,9 @@ class ClaseSerial:
         send = "NTP"
         recv = self.enviarYObtenerRespuesta(send)
         cargar_comand_log(send, recv)
-	#todo: save in db: recv, in command log table
+        #todo: save in db: recv, in command log table
+        #thread que recibe los datos desde la uart y los guarda en el buffer. PRODUCTOR
 
-    #thread que recibe los datos desde la uart y los guarda en el buffer. PRODUCTOR
     def loop_productor(self, e):
 
         #todo: guardar en la base de datos: "producer thread started", en la tabla de log del monitor
