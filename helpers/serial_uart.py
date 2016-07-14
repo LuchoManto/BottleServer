@@ -1,7 +1,6 @@
 __author__ = 'Luciano Mantovani & Ignacio Sambataro'
 
 import serial
-from apscheduler.schedulers.background import BackgroundScheduler
 import threading
 import time
 import collections
@@ -10,19 +9,25 @@ import re
 from helpers.base_datos import*
 from helpers.conversion_data_handler import*
 
+import os, pty, serial
+
+
+
 class ClaseSerial:
 
     
 
     def __init__(self):
-        self.port = serial.Serial(port = '/dev/ttyAMA0',
-                                  baudrate=9600,
-                                  parity=serial.PARITY_NONE,
-                                  stopbits=serial.STOPBITS_ONE,
-                                  bytesize=serial.EIGHTBITS,
-                                  timeout=3)
+        # self.port = serial.Serial(port = '/dev/ttyAMA0',
+        #                           baudrate=9600,
+        #                           parity=serial.PARITY_NONE,
+        #                           stopbits=serial.STOPBITS_ONE,
+        #                           bytesize=serial.EIGHTBITS,
+        #                           timeout=3)
+        master, slave = pty.openpty()
+        s_name = os.ttyname(slave)
+        self.port = serial.Serial(s_name)
         self.keepGoing = 1
-        self.sched = BackgroundScheduler()
         self.buffer_mediciones = collections.deque(maxlen=20)
         self.e = threading.Event()
         self.st1 = 0
@@ -47,9 +52,6 @@ class ClaseSerial:
         recv = self.port.readline()
         time.sleep(1)
         return recv
-
-    def startSched(self):
-        self.sched.start()
 
     def keepAlive(self):
         send = "p"
