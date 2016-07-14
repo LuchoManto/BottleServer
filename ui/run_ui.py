@@ -75,8 +75,8 @@ def send_serial(value):
         #llamar a la funcion que va a llamar a los hilos.
         serial_obj.start_conversion_ST()
     elif send == 's':
-	serial_obj.kill_threads()
-    #if send == 'GSE,0':
+	    serial_obj.kill_threads()
+    # if send == 'GSE,0':
     #   time.sleep(1)
     #    med = serial_obj.recibir()
 	#    med1 = med[5:]
