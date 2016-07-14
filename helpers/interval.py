@@ -1,16 +1,20 @@
+intervals = []
+
 class Interval:
 
-    def __init__(self, hour_start, min_start, hour_end, min_end, sched):
+    def __init__(self, hour_start, min_start, hour_end, min_end, sched, serial):
         self.hour_start = hour_start
         self.min_start = min_start
         self.hour_end = hour_end
         self.min_end = min_end
         self.sched = sched
         self.id = id(self)
+        self.serial = serial
+        intervals.append(self)
 
     def activate_interval(self):
-        self.job_1_id = self.sched.add_job(serial_obj.triggerStart, 'cron', hour=hour_start, minute=min_start)
-        self.job_2_id = self.sched.add_job(serial_obj.triggerEnd, 'cron', hour=hour_end, minute=min_end)
+        self.job_1_id = self.sched.add_job(self.serial.triggerStart, 'cron', hour=self.hour_start, minute=self.min_start)
+        self.job_2_id = self.sched.add_job(self.serial.triggerEnd, 'cron', hour=self.hour_end, minute=self.min_end)
 
     def deactivate_interval(self):
         self.job_1_id.remove()

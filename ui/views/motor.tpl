@@ -1,5 +1,5 @@
 % rebase('base.tpl')
-
+% from helpers.interval import *
 <!--Main div to insert in base-->
 <div id="main_div_module" class="container main_container">
     <!-- Send specific serial div-->
@@ -102,6 +102,11 @@
         End: <input type="time" id="end_interval" min="00:00" max="23:59"><br>
         </div>
         <button id="set_interval_button" class="btn btn-primary">Set</button>
+        <table>
+            %for interval in intervals:
+            <tr><td>Interval ID: {{interval.id}}</td></tr>
+            %end
+        </table>
 
 </div>
 

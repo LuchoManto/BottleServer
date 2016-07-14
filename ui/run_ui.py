@@ -12,8 +12,10 @@ from bottle import debug as bottle_debug, static_file, view, response, request
 
 from helpers.connection import *
 from helpers.start import *
+from helpers.interval import *
 from helpers.serial_uart import *
 from helpers.base_datos import*
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 from datetime import date
@@ -26,6 +28,10 @@ logger = create_logger()
 #create serial object
 serial_obj = ClaseSerial()
 
+
+#start the scheduler
+sched = BackgroundScheduler()
+
 # Function to run the UI. host='localhost'
 def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     """
@@ -36,8 +42,6 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     :return:
     """
 
-    #start the scheduler
-    serial_obj.startSched()
 
     # If not specified search for a free port.
     if not port:
@@ -134,8 +138,9 @@ def handler():
     min_start = int(start.split(":")[1])
     hour_end = int(end.split(":")[0])
     min_end = int(end.split(":")[1])
-    serial_obj.sched.add_job(serial_obj.triggerStart, 'cron', hour=hour_start, minute=min_start)
-    serial_obj.sched.add_job(serial_obj.triggerEnd, 'cron', hour=hour_end, minute=min_end)
+    interv = Interval(hour_start, min_start, hour_end, min_end, sched, serial_obj)
+    interv.activate_interval()
+    return
 
 # def triggerStart():
 # 		send = "SSE,0,1"
