@@ -132,7 +132,7 @@ def serve_css_static(filename):
 
 # Post send by serial
 @app.post('/set_interval')
-def handler():
+def set_interval():
     start = request.params.dict['start'][0]
     end = request.params.dict['end'][0]
     hour_start = int(start.split(":")[0])
@@ -141,6 +141,14 @@ def handler():
     min_end = int(end.split(":")[1])
     interv = Interval(hour_start, min_start, hour_end, min_end, sched, serial_obj)
     interv.activate_interval()
+    return
+
+@app.post('/remove_interval/<value>')
+def remove_interval(value):
+    id_regla = value
+    interv = get_interval_by_id(id_regla)
+    if interv is not None:
+        interv.remove_interval()
     return
 
 # def triggerStart():

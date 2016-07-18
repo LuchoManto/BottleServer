@@ -20,6 +20,20 @@ class Interval:
         self.job_1_id.remove()
         self.job_2_id.remove()
 
+    def remove_interval(self):
+        self.deactivate_interval()
+        intervals.remove(self)
+
+
+def get_interval_by_id(id):
+    for interval in intervals:
+        if interval.id == int(id):
+            return interval
+    return None
+
+
+
+
 
 # def triggerStart():
 # 		send = "SSE,0,1"

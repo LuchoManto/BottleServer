@@ -116,7 +116,7 @@
                 <td>{{interval.id}}</td>
                 <td>{{interval.hour_start}}:{{interval.min_start}}</td>
                 <td>{{interval.hour_end}}:{{interval.min_end}}</td>
-                <td><button type="button" class="btn btn-danger remove_interval" value={{interval.id}}>Erase</button></td>
+                <td><button class="remove_interval_button btn btn-primary" value="{{interval.id}}">Erase</button></td>
             </tr>
             %end
         </table>
@@ -143,7 +143,22 @@ $("#set_interval_button").click(function(e){
         }
     });
 });
+</script>
 
+<script>
+$(".remove_interval_button").click(function(e){
+    e.preventDefault();
+
+        $.ajax({
+        url: '/remove_interval/' + $(this).attr("value"),
+        cache:false, type: 'POST',
+        success: function(data){
+            location.reload();
+        }
+    });
+});
+</script>
+<script>
 $("#send_serial_button").click(function(e){
     e.preventDefault();
     //Post with the button
@@ -152,21 +167,6 @@ $("#send_serial_button").click(function(e){
         cache:false, type: 'POST'
     });
 });
-
-/*
-$("#send_serial_button").click(function(e){
-    e.preventDefault();
-    //Post with the button
-    $.ajax({
-        url: '/papo',
-        cache:false,
-        type: 'POST',
-        data: {
-            start: $('#start').val(),
-            end:  $('#end').val()
-        }
-    });
-});*/
 </script>
 
 <!--Script to connect/disconnect UART-->
