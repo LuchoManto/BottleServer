@@ -102,14 +102,26 @@
         End: <input type="time" id="end_interval" min="00:00" max="23:59"><br>
         </div>
         <button id="set_interval_button" class="btn btn-primary">Set</button>
+</div>
+    <div id="interval_tbl" class="container padding_top20">
+         <div class="col-xs-6">
         <table>
+            <tr>
+                <th>Interval ID</th>
+                <th>Start time</th>
+                <th>End time</th>
+            </tr>
             %for interval in intervals:
-            <tr><td>Interval ID: {{interval.id}}</td></tr>
+            <tr>
+                <td>{{interval.id}}</td>
+                <td>{{interval.hour_start}}:{{interval.min_start}}</td>
+                <td>{{interval.hour_end}}:{{interval.min_end}}</td>
+                <td><button type="button" class="btn btn-danger remove_interval" value={{interval.id}}>Erase</button></td>
+            </tr>
             %end
         </table>
-
-</div>
-
+         </div>
+    </div>
 <!--Script when send a specific value-->
 <script>
 
@@ -125,7 +137,10 @@ $("#set_interval_button").click(function(e){
             end:   $('#end_interval').val()
         },
         datatype: "json",
-        cache:false, type: 'POST'
+        cache:false, type: 'POST',
+        success: function(data){
+            location.reload();
+        }
     });
 });
 

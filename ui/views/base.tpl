@@ -40,15 +40,15 @@
         {{!base}}
     </div>
     <!-- Logger Div-->
-    <div id="navbar_bottom" class="navbar navbar-fixed-bottom navbar_bottom">
-        <div id="resizable_bottom" class="resizable_bottom">
-            <!-- Source of log_screen route /logger with the function to fill the log-->
-            <div class="container">
-                <h5>Log <a href="#" id="btn_hide_log" style="margin-left:10px;"><i id="toggle_icon" class="icon-chevron-down" aria-hidden="true"></i></a></h5>
-                <iframe id="log_screen" src="/logger" width="100%" height="100px" style="z-index:0;"></iframe>
-            </div>
-        </div>
-    </div>
+    <!-- <div id="navbar_bottom" class="navbar navbar-fixed-bottom navbar_bottom"> -->
+        <!-- <div id="resizable_bottom" class="resizable_bottom"> -->
+             <!-- Source of log_screen route /logger with the function to fill the log -->
+            <!-- <div class="container"> -->
+                <!-- <h5>Log <a href="#" id="btn_hide_log" style="margin-left:10px;"><i id="toggle_icon" class="icon-chevron-down" aria-hidden="true"></i></a></h5> -->
+                <!-- <iframe id="log_screen" src="/logger" width="100%" height="100px" style="z-index:0;"></iframe> -->
+            <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
 </body>
 </html>
 

@@ -9,6 +9,7 @@ import time
 import bottle
 from bottle import Bottle
 from bottle import debug as bottle_debug, static_file, view, response, request
+from bottle import SimpleTemplate
 
 from helpers.connection import *
 from helpers.start import *
