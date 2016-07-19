@@ -14,7 +14,7 @@
               </tr>
             </thead>
             <tbody>
-                %for row in dato_medicion:
+                %for row in pila_medicion:
                 <tr>
                     <td>{{row.tdate}}</td>
                     <td>{{row.pin}}</td>
