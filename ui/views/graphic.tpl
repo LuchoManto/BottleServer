@@ -16,9 +16,9 @@
             <tbody>
                 %for row in pila_medicion:
                 <tr>
-                    <td>{{rows.tdate}}</td>
-                    <td>{{interval.pin}}</td>
-                    <td>{{interval.electrostatic}}</td>
+                    <td>{{row}}</td>
+                    <td>{{row}}</td>
+                    <td>{{row}}</td>
                 </tr>
             %end
             </tbody>

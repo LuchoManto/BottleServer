@@ -15,6 +15,7 @@ class Interval:
     def activate_interval(self):
         self.job_1_id = self.sched.add_job(self.serial.triggerStart, 'cron', hour=self.hour_start, minute=self.min_start)
         self.job_2_id = self.sched.add_job(self.serial.triggerEnd, 'cron', hour=self.hour_end, minute=self.min_end)
+	print "intervals set"
 
     def deactivate_interval(self):
         self.job_1_id.remove()

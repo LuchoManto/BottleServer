@@ -23,7 +23,9 @@ def cargar_medicion(timestamp, pin, valor):
 def cargar_desde_bd():
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
-    curs.excecute("SELECT * FROM medicion")
-    for row in curs:
-        pila_medicion.append(row)
+    curs.execute("SELECT tdate, pin, electrostatic FROM medicion")
+    for (tdate, pin, electrostatic) in curs:
+        pila_medicion.append(tdate)
+	pila_medicion.append(pin)
+	pila_medicion.append(electrostatic)
     return pila_medicion
