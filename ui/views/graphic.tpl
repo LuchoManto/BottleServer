@@ -14,11 +14,11 @@
               </tr>
             </thead>
             <tbody>
-                %for row in pila_medicion:
+                %for row in dato_medicion:
                 <tr>
-                    <td>{{rows.tdate}}</td>
-                    <td>{{interval.pin}}</td>
-                    <td>{{interval.electrostatic}}</td>
+                    <td>{{row.tdate}}</td>
+                    <td>{{row.pin}}</td>
+                    <td>{{row.electrostatic}}</td>
                 </tr>
             %end
             </tbody>

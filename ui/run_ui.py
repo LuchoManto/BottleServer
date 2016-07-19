@@ -153,6 +153,7 @@ def remove_interval(value):
 
 @app.get('/graphic.html')
 def graphic():
+    cargar_desde_bd()
     return template('graphic.tpl')
 
 

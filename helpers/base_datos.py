@@ -2,6 +2,8 @@ __author__ = 'Ignacio'
 
 import MySQLdb
 
+from helpers.dato_db import *
+
 pila_medicion = []
 
 def cargar_comand_log(valor,respuesta):
@@ -23,7 +25,7 @@ def cargar_medicion(timestamp, pin, valor):
 def cargar_desde_bd():
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
-    curs.excecute("SELECT * FROM medicion")
-    for row in curs:
-        pila_medicion.append(row)
-    return pila_medicion
+    curs.excecute("SELECT tdate, pin, electrostatic FROM medicion")
+    for (tdate, pin, electrostatic) in curs:
+        dato_medicion = Dato_db(tdate, pin, electrostatic)
+    return dato_medicion
