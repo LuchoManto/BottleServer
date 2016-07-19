@@ -112,11 +112,13 @@
     <div id="interval_tbl" class="container padding_top20">
          <div class="col-xs-6">
         <table>
+            %if intervals.__len__() != 0:
             <tr>
                 <th>Interval ID</th>
                 <th>Start time</th>
                 <th>End time</th>
             </tr>
+            %end
             %for interval in intervals:
             <tr>
                 <td>{{interval.id}}</td>

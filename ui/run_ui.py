@@ -42,8 +42,8 @@ def run_ui(debug=False, host='0.0.0.0', port=50505, browser=True):
     :param browser: open browser when run, default True.
     :return:
     """
-
-
+    #start running the scheduler
+    sched.start()
     # If not specified search for a free port.
     if not port:
         port = get_free_port()
