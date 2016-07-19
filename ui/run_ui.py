@@ -1,6 +1,5 @@
 __author__ = 'Gaston'
 
-
 import threading
 import time
 
@@ -8,6 +7,7 @@ import time
 
 import bottle
 from bottle import Bottle
+from bottle import route, run, template, static_file, response, request
 from bottle import debug as bottle_debug, static_file, view, response, request
 from bottle import SimpleTemplate
 
@@ -150,6 +150,11 @@ def remove_interval(value):
     if interv is not None:
         interv.remove_interval()
     return
+
+@app.get('/graphic.html')
+def graphic():
+    return template('graphic.tpl')
+
 
 # def triggerStart():
 # 		send = "SSE,0,1"

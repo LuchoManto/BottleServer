@@ -13,6 +13,12 @@
         <div class="col-xs-2">
             <button id="send_serial_button" class="btn btn-primary">Send</button>
         </div>
+        <div class="col-xs-2">
+            <!--<button id="base_datos" class="btn btn-info btn-lg">Ver Mediciones</button> -->
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/graphic.html">Datos Sensor</a></li>
+            </ul>
+        </div>
     </div>
     <!-- Active listener UART and disable it-->
     <div id="uart_state" class="container padding_top20">
