@@ -26,11 +26,13 @@ def cargar_medicion(timestamp, pin, valor):
 def cargar_desde_bd_medicion():
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
-    curs.excecute("SELECT tdate, pin, electrostatic FROM medicion")
+    curs.execute("SELECT tdate, pin, electrostatic FROM medicion")
     for (tdate, pin, electrostatic) in curs:
         dato_medicion = Dato_db(tdate, pin, electrostatic)
+        pila_medicion.append(dato_medicion)
     curs.close()
-    return dato_medicion
+    return pila_medicion
+
 
 def cargar_desde_bd_comando():
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
@@ -38,5 +40,7 @@ def cargar_desde_bd_comando():
     curs.excecute("SELECT dtime, ttime, comand, respond, electrostatic FROM comandlog")
     for (dtime, ttime, comand, respond) in curs:
         dato_comando = Dato_db(dtime, ttime, comand, respond)
+        pila_comando.append(dato_comando)
     curs.close()
     return dato_comando
+
