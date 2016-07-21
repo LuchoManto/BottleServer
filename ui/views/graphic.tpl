@@ -24,5 +24,28 @@
             </tbody>
         </table>
     </div>
+    <div class="col-xs-6">
+        <div class="panel-footer">Log de Comandos</div>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Comando</th>
+                  <th>Respuesta</th>
+              </tr>
+            </thead>
+            <tbody>
+                %for row in dato_comando:
+                <tr>
+                    <td>{{row.dtime}}</td>
+                    <td>{{row.ttime}}</td>
+                    <td>{{row.comand}}</td>
+                    <td>{{row.respnd}}</td>
+                </tr>
+            %end
+            </tbody>
+        </table>
+    </div>
 </div>
 <!-- end Graph HTML -->
