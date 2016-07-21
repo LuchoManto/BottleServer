@@ -3,6 +3,7 @@ __author__ = 'Ignacio'
 import MySQLdb
 
 from helpers.dato_db import *
+from helpers.dato_bd_log import *
 
 pila_medicion = []
 pila_comando = []
@@ -39,7 +40,7 @@ def cargar_desde_bd_comando():
     curs = db.cursor()
     curs.excecute("SELECT dtime, ttime, comand, respond, electrostatic FROM comandlog")
     for (dtime, ttime, comand, respond) in curs:
-        dato_comando = Dato_db(dtime, ttime, comand, respond)
+        dato_comando = Dato_db_log(dtime, ttime, comand, respond)
         pila_comando.append(dato_comando)
     curs.close()
     return dato_comando
