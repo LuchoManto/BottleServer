@@ -16,8 +16,9 @@ class ClaseSerial:
 
 
     def __init__(self):
-        # self.port = serial.Serial(port = '/dev/ttyAMA0',
-        self.port = serial.Serial(port = 'COM6',
+
+        self.port = serial.Serial(port = '/dev/ttyAMA0',
+        #self.port = serial.Serial(port = 'COM6',
                                   baudrate=9600,
                                   parity=serial.PARITY_NONE,
                                   stopbits=serial.STOPBITS_ONE,
