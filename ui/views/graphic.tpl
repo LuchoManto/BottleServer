@@ -24,7 +24,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-4">
         <div class="panel-footer">Log de Comandos</div>
         <table class="table table-striped">
             <thead>
@@ -36,12 +36,12 @@
               </tr>
             </thead>
             <tbody>
-                %for row in dato_comando:
+                %for row in pila_comando:
                 <tr>
-                    <td>{{row.dtime}}</td>
+                    <td>{{row.tdate}}</td>
                     <td>{{row.ttime}}</td>
                     <td>{{row.comand}}</td>
-                    <td>{{row.respnd}}</td>
+                    <td>{{row.respond}}</td>
                 </tr>
             %end
             </tbody>

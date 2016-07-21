@@ -38,10 +38,10 @@ def cargar_desde_bd_medicion():
 def cargar_desde_bd_comando():
     db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
     curs = db.cursor()
-    curs.excecute("SELECT dtime, ttime, comand, respond, electrostatic FROM comandlog")
-    for (dtime, ttime, comand, respond) in curs:
-        dato_comando = Dato_db_log(dtime, ttime, comand, respond)
+    curs.execute("SELECT tdate, ttime, comand, respond FROM comandlog")
+    for (tdate, ttime, comand, respond) in curs:
+        dato_comando = Dato_db_log(tdate, ttime, comand, respond)
         pila_comando.append(dato_comando)
     curs.close()
-    return dato_comando
+    return pila_comando
 
