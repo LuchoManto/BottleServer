@@ -20,11 +20,12 @@
                     <td>{{row.pin}}</td>
                     <td>{{row.electrostatic}}</td>
                 </tr>
+            %pila_medicion.clear()
             %end
             </tbody>
         </table>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-6">
         <div class="panel-footer">Log de Comandos</div>
         <table class="table table-striped">
             <thead>

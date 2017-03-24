@@ -15,7 +15,7 @@
         </div>
         <div class="col-xs-2">
             <!--<button id="base_datos" class="btn btn-info btn-lg">Ver Mediciones</button> -->
-            <ul class="nav navbar-nav navbar-right">
+            <ul id="dato_bd" class="nav navbar-nav navbar-right">
                 <li><a href="/graphic.html">Datos Sensor</a></li>
             </ul>
         </div>
@@ -132,6 +132,23 @@
     </div>
 <!--Script when send a specific value-->
 <script>
+
+$("#dato_bd").click(function(e){
+    e.preventDefault();
+    //Post with the button
+
+    $.ajax({
+        url: '/graphic',
+        data:
+        {
+        },
+        datatype: "json",
+        cache:false, type: 'POST',
+        success: function(data){
+            location.reload();
+        }
+    });
+
 
 $("#set_interval_button").click(function(e){
     e.preventDefault();

@@ -13,6 +13,9 @@ def retrieve_timestamp(data):
        #Al igual que en retrieve_conversion(), solo que ahora dejo el tstamp y elimino el resto.
     #return dato1    
     return data[6:].replace("\r"," ").replace("\n"," ")
+def retieve_pin(data):
+    return  data[7]
+
 
 def generate_timestamp(current_relative_ts, last_relative_ts, base_ts):
     #base_ts is obtained w/get_pi_tiemstamp at begginning of continuous conversion
