@@ -189,12 +189,13 @@ class ClaseSerial:
                     break
                 #if not self.waitt == 1:
                 else:
-                    toSave1 = retrieve_conversion(toSave)
+                    conversion = retrieve_conversion(toSave)
                     current = retrieve_timestamp(toSave)
-                    cargar_comand_log('medicion es', toSave1)
+                    pin = retieve_pin(toSave)
+                    cargar_comand_log('medicion es', conversion)
                     base = get_pi_timestamp_ms()
                     tstamp = generate_timestamp(current, last, base)
-                    cargar_medicion(tstamp, "0", toSave1)
+                    cargar_medicion(tstamp, pin, conversion)
                     last = current
             # else:
                 # cargar_comand_log("wait consu",'2')
