@@ -9,7 +9,7 @@ pila_medicion = []
 pila_comando = []
 
 def cargar_comand_log(valor,respuesta):
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("""INSERT INTO comandlog
         values(CURRENT_DATE(), NOW(),%s, %s)""", (valor, respuesta,))
@@ -17,7 +17,7 @@ def cargar_comand_log(valor,respuesta):
     db.close()
 
 def cargar_medicion(timestamp, pin, valor):
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("""INSERT INTO medicion
             values(%s, %s,%s)""", (timestamp, pin, valor,))
@@ -26,7 +26,7 @@ def cargar_medicion(timestamp, pin, valor):
 
 def cargar_desde_bd_medicion():
     pila_medicion = []
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT tdate, pin, electrostatic FROM medicion")
     for (tdate, pin, electrostatic) in curs:
@@ -38,7 +38,7 @@ def cargar_desde_bd_medicion():
 
 def cargar_desde_bd_comando():
     pila_comando = []
-    db = MySQLdb.connect("localhost", "tesis", "1234", "rayito")
+    db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT tdate, ttime, comand, respond FROM comandlog")
     for (tdate, ttime, comand, respond) in curs:
