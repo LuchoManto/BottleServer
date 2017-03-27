@@ -137,7 +137,7 @@ class ClaseSerial:
 
     def loop_productor(self, e):
 
-        #todo: guardar en la base de datos: "producer thread started", en la tabla de log del monitor
+        #TODO: guardar en la base de datos: "producer thread started", en la tabla de log del monitor
         #todo: vaciar buffer
 
         #todo: crear thread que ejecute la funcion guardarDatosContinuos
@@ -152,7 +152,7 @@ class ClaseSerial:
             #  else:
             toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
-            time.sleep(0.5)
+            time.sleep(0.8)
             if self.check_entry(toSave):
                 self.buffer_mediciones.append(toSave)
                 e.set()
