@@ -3,7 +3,7 @@ __author__ = 'Gaston'
 import threading
 import time
 
- #import MySQLdb
+import MySQLdb
 
 import bottle
 from bottle import Bottle
