@@ -6,7 +6,7 @@ import datetime
 #LA INFORMACION QUE LLEGA DESDE LA PLACA TIENE EL SIGUIENTE FORMATO :
 #               TIPO DE CONVERSION, PIN, CONVERSION, TIMESTAMP
 #EN CANTIDADES DE CARACTERES SON :
-#               2, 1, 5, 5
+#               2, 1, 5, 5,
 
 def retrieve_conversion(data):
     return data[5:10]

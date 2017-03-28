@@ -18,7 +18,7 @@
                 <tr>
                     <td>{{row.timestamp}}</td>
                     <td>{{row.pin}}</td>
-                    <td>{{row.electrostatic}}</td>
+                    <td>{{row.valor}}</td>
                 </tr>
             %pila_medicion.clear()
             %end
