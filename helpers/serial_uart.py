@@ -152,6 +152,7 @@ class ClaseSerial:
             #  else:
             toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
+            last = "0"
             if self.waitt == 1:
                 cargar_comand_log('string null', 'exit')
                 break
