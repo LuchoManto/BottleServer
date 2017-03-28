@@ -152,20 +152,6 @@ class ClaseSerial:
             #  else:
             toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
-            last = "0"
-            if self.waitt == 1:
-                cargar_comand_log('string null', 'exit')
-                break
-            # if not self.waitt == 1:
-            else:
-                conversion = retrieve_conversion(toSave)
-                current = retrieve_timestamp(toSave)
-                pin = retieve_pin(toSave)
-                cargar_comand_log('medicion es', conversion)
-                base = get_pi_timestamp_ms()
-                tstamp = generate_timestamp(current, last, base)
-                cargar_medicion(tstamp, pin, conversion)
-                last = current
             time.sleep(0.8)
             if self.check_entry(toSave):
                 self.buffer_mediciones.append(toSave)
@@ -191,10 +177,11 @@ class ClaseSerial:
     def loop_consumidor(self, e):
         # thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
         last = "0"
+        cargar_comand_log('ENTRO CONSUMIDOR',)
         while e.is_set():
             if self.buffer_mediciones:
                 toSave = self.buffer_mediciones.popleft()
-                # cargar_comand_log('toSave',toSave)
+                cargar_comand_log('ENTRO WHILE',toSave)
                 if not toSave:
                     cargar_comand_log('wait es',self.waitt)
                 if self.waitt == 1:
