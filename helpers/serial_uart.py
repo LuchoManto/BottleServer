@@ -48,7 +48,6 @@ class ClaseSerial:
         time.sleep(1)
         recv = self.port.readline()
         time.sleep(1)
-        cargar_comand_log('VALOOOOOOOR', recv)
         return recv
 
     def keepAlive(self):
@@ -153,6 +152,14 @@ class ClaseSerial:
             #  else:
             toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
+            conversion = retrieve_conversion(toSave)
+            current = retrieve_timestamp(toSave)
+            pin = retieve_pin(toSave)
+            cargar_comand_log('medicion es', conversion)
+            base = get_pi_timestamp_ms()
+            tstamp = generate_timestamp(current, last, base)
+            cargar_medicion(tstamp, pin, conversion)
+            last = current
             time.sleep(0.8)
             if self.check_entry(toSave):
                 self.buffer_mediciones.append(toSave)
