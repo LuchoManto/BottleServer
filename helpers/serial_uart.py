@@ -153,9 +153,10 @@ class ClaseSerial:
             toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
             time.sleep(0.8)
-            if self.check_entry(toSave):
-                self.buffer_mediciones.append(toSave)
-                e.set()
+            # if self.check_entry(toSave):
+            self.buffer_mediciones.append(toSave)
+            cargar_comand_log('CHECK ENTRY', toSave)
+            e.set()
             # toSave3 = retrieve_conversion(toSave)
             # self.e.set()
         # loop forever:
