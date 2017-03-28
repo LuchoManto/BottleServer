@@ -9,12 +9,12 @@ import datetime
 #               2, 1, 5, 5
 
 def retrieve_conversion(data):
-    return data[6:10]
+    return data[5:9]
 def retrieve_timestamp(data):
        #Al igual que en retrieve_conversion(), solo que ahora dejo el tstamp y elimino el resto.
-    return data[12:]
+    return data[11:]
 def retieve_pin(data):
-    return data[4]
+    return data[3]
 
 def generate_timestamp(current_relative_ts, last_relative_ts, base_ts):
     current_relative = int(current_relative_ts)
