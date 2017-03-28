@@ -177,7 +177,7 @@ class ClaseSerial:
     def loop_consumidor(self, e):
         # thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
         last = "0"
-        cargar_comand_log('ENTRO CONSUMIDOR',)
+        cargar_comand_log('ENTRO CONSUMIDOR','1')
         while e.is_set():
             if self.buffer_mediciones:
                 toSave = self.buffer_mediciones.popleft()
