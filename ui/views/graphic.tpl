@@ -16,7 +16,7 @@
             <tbody>
                 %for row in pila_medicion:
                 <tr>
-                    <td>{{row.tdate}}</td>
+                    <td>{{row.timestamp}}</td>
                     <td>{{row.pin}}</td>
                     <td>{{row.electrostatic}}</td>
                 </tr>

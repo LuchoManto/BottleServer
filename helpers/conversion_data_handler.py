@@ -9,7 +9,7 @@ import datetime
 #               2, 1, 5, 5
 
 def retrieve_conversion(data):
-    return data[5:9]
+    return data[5:10]
 def retrieve_timestamp(data):
        #Al igual que en retrieve_conversion(), solo que ahora dejo el tstamp y elimino el resto.
     return data[11:]
