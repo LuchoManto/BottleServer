@@ -14,6 +14,16 @@
               </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>"hola"</td>
+                    <td>"putos"</td>
+                    <td>TODOS</td>
+                </tr>
+                <tr>
+                    <td>pila_medicion"</td>
+                    <td>"putos"</td>
+                    <td>TODOS</td>
+                </tr>
                 %for row in pila_medicion:
                 <tr>
                     <td>{{row.hora}}</td>
