@@ -1,10 +1,10 @@
-% rebase('base.tpl')
-% from helpers.base_datos import *
+%rebase('base.tpl')
+%from helpers.base_datos import *
 
 <!-- Graph HTML -->
 <div id="graph">
     <div class="col-xs-6">
-        <div class="panel-footer">Medicion DataBase</div>
+        <div class="panel-footer">Mediciones</div>
         <table class="table table-striped">
             <thead>
               <tr>
@@ -18,11 +18,11 @@
                 %hora = row.hora
                 %pin = row.pin
                 %medicion = row.medicion
-                <tr>
-                    <td>{{hora}}</td>
-                    <td>{{pin}}</td>
-                    <td>{{medicion}}</td>
-                </tr>
+              <tr>
+                <td>{{hora}}</td>
+                <td>{{pin}}</td>
+                <td>{{medicion}}</td>
+              </tr>
             <!--%pila_medicion.clear()-->
             %end
             </tbody>
