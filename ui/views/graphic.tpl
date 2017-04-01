@@ -15,10 +15,13 @@
             </thead>
             <tbody>
                 %for row in pila_medicion:
+                %hora = row.hora
+                %pin = row.pin
+                %medicion = row.medicion
                 <tr>
-                    <td>{{row.hora}}</td>
-                    <td>{{row.pin}}</td>
-                    <td>{{row.medicion}}</td>
+                    <td>{{hora}}</td>
+                    <td>{{pin}}</td>
+                    <td>{{medicion}}</td>
                 </tr>
             <!--%pila_medicion.clear()-->
             %end
