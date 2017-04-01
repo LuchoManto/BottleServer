@@ -153,9 +153,9 @@ class ClaseSerial:
             toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
             time.sleep(0.5)
-            # if self.check_entry(toSave):
-            self.buffer_mediciones.append(toSave)
-            e.set()
+            if self.check_entry(toSave):
+                self.buffer_mediciones.append(toSave)
+                e.set()
             # toSave3 = retrieve_conversion(toSave)
             # self.e.set()
         # loop forever:
@@ -213,7 +213,7 @@ class ClaseSerial:
 
 
     def check_entry(self, data):
-        pattern = re.compile("^\d{5,5}\W\d{5,5}")
+        pattern = re.compile("^\w{2,2}\W\d{1,1}\W\d{5,5}\W\d{5,5}")
         return pattern.match(data)
 
 
