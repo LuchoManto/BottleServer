@@ -16,9 +16,9 @@
             <tbody>
                 %for row in pila_medicion:
                 <tr>
-                    <td>{{row.timestamp}}</td>
+                    <td>{{row.hora}}</td>
                     <td>{{row.pin}}</td>
-                    <td>{{row.valor}}</td>
+                    <td>{{row.medicion}}</td>
                 </tr>
             %pila_medicion.clear()
             %end
@@ -39,10 +39,10 @@
             <tbody>
                 %for row in pila_comando:
                 <tr>
-                    <td>{{row.tdate}}</td>
-                    <td>{{row.ttime}}</td>
-                    <td>{{row.comand}}</td>
-                    <td>{{row.respond}}</td>
+                    <td>{{row.fecha}}</td>
+                    <td>{{row.hora}}</td>
+                    <td>{{row.comando}}</td>
+                    <td>{{row.respuesta}}</td>
                 </tr>
             %end
             </tbody>
