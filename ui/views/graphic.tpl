@@ -20,7 +20,7 @@
                     <td>{{row.pin}}</td>
                     <td>{{row.medicion}}</td>
                 </tr>
-            %pila_medicion.clear()
+            <!--%pila_medicion.clear()-->
             %end
             </tbody>
         </table>
