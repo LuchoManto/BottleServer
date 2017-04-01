@@ -20,7 +20,7 @@
                     <td>TODOS</td>
                 </tr>
                 <tr>
-                    <td>pila_medicion"</td>
+                    <td>%pila_medicion.hora</td>
                     <td>"putos"</td>
                     <td>TODOS</td>
                 </tr>
