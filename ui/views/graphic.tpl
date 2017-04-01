@@ -23,8 +23,8 @@
                 <td>{{pin}}</td>
                 <td>{{medicion}}</td>
               </tr>
-            <!--%pila_medicion.clear()-->
             %end
+            %pila_medicion.clear()
             </tbody>
         </table>
     </div>
@@ -48,6 +48,7 @@
                     <td>{{row.respuesta}}</td>
                 </tr>
             %end
+            %pila_comando.clear()
             </tbody>
         </table>
     </div>

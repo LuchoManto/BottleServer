@@ -152,10 +152,9 @@ class ClaseSerial:
             #  else:
             toSave = self.recibir()
             cargar_comand_log('recibe', toSave)
-            time.sleep(0.8)
+            time.sleep(0.5)
             # if self.check_entry(toSave):
             self.buffer_mediciones.append(toSave)
-            cargar_comand_log('CHECK ENTRY', toSave)
             e.set()
             # toSave3 = retrieve_conversion(toSave)
             # self.e.set()
@@ -178,11 +177,9 @@ class ClaseSerial:
     def loop_consumidor(self, e):
         # thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
         last = "0"
-        cargar_comand_log('ENTRO CONSUMIDOR','1')
         while e.is_set():
             if self.buffer_mediciones:
                 toSave = self.buffer_mediciones.popleft()
-                cargar_comand_log('ENTRO WHILE',toSave)
                 if not toSave:
                     cargar_comand_log('wait es',self.waitt)
                 if self.waitt == 1:
