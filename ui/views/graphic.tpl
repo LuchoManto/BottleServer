@@ -24,7 +24,7 @@
                 <td>{{medicion}}</td>
               </tr>
             %end
-            %pila_medicion.clear()
+            %pila_medicion = []
             </tbody>
         </table>
     </div>
@@ -48,7 +48,7 @@
                     <td>{{row.respuesta}}</td>
                 </tr>
             %end
-            %pila_comando.clear()
+            %pila_comando = []
             </tbody>
         </table>
     </div>
