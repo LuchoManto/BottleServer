@@ -7,3 +7,7 @@ class Dato_db:
         self.medicion = medicion
         self.id = id(self)
 
+    def get_hora(self):
+        return self.hora
+
+

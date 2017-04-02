@@ -32,9 +32,11 @@ def cargar_desde_bd_medicion():
     curs.execute("SELECT * FROM medicion")
     for (hora, pin, medicion) in curs:
         dato_medicion = Dato_db(hora, pin, medicion)
-        for (fecha_guardada_medicion) in pila_comando:
-            if dato_medicion.hora != pila_medicion.pop(fecha_guardada_medicion):
+        z = 0
+        for (medicion) in pila_medicion:
+            if dato_medicion.hora != medicion.get_hora():
                 pila_medicion.append(dato_medicion)
+                z += 1
     curs.close()
     return pila_medicion
 
@@ -44,9 +46,11 @@ def cargar_desde_bd_comando():
     curs.execute("SELECT * FROM comandlog")
     for (fecha, hora, comando, respuesta) in curs:
         dato_comando = Dato_db_log(fecha, hora, comando, respuesta)
-        for (fecha1_guardada_comando) in pila_comando:
-            if dato_comando.hora != pila_comando.pop(fecha1_guardada_comando):
+        i = 0
+        for (comando) in pila_comando:
+            if dato_comando.hora != comando.get_hora():
                 pila_comando.append(dato_comando)
+                i += 1
     curs.close()
     return pila_comando
 

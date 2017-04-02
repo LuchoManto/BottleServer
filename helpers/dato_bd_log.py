@@ -9,5 +9,5 @@ class Dato_db_log:
         self.respuesta = respuesta
         self.id = id(self)
 
-    def get_fecha(self):
-        return self.fecha
+    def get_hora(self):
+        return self.hora
