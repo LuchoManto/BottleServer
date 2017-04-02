@@ -27,20 +27,12 @@ def cargar_medicion(timestamp, pin, valor):
     db.close()
 
 def cargar_desde_bd_medicion():
-    pila_medicion_vieja = pila_medicion
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT * FROM medicion")
-    i = 0
     for (hora, pin, medicion) in curs:
         dato_medicion = Dato_db(hora, pin, medicion)
-        if i == 0:
-            pila_medicion.append(dato_medicion)
-        else:
-            for element in pila_medicion_vieja:
-                if element.hora != dato_medicion.hora:
-                    pila_medicion.append(dato_medicion)
-        i = 1
+        pila_medicion.append(dato_medicion)
     curs.close()
     return pila_medicion
 
@@ -48,9 +40,12 @@ def cargar_desde_bd_comando():
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT * FROM comandlog")
+    i = 0
     for (fecha, hora, comando, respuesta) in curs:
         dato_comando = Dato_db_log(fecha, hora, comando, respuesta)
-        pila_comando.append(dato_comando)
+        if dato_comando.hora != pila_comando.__getitem__(i).hora:
+            pila_comando.append(dato_comando)
+        i = i + 1
     curs.close()
     return pila_comando
 
