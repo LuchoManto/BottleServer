@@ -41,11 +41,14 @@ def cargar_desde_bd_comando():
     curs = db.cursor()
     curs.execute("SELECT * FROM comandlog")
     i = 0
+    counter = pila_comando.__sizeof__()
     for (fecha, hora, comando, respuesta) in curs:
         dato_comando = Dato_db_log(fecha, hora, comando, respuesta)
-        if dato_comando.hora != pila_comando.__getitem__(i).hora:
+        if counter == 0:
             pila_comando.append(dato_comando)
-        i = i + 1
+        if i > counter:
+            pila_comando.append(dato_comando)
+        i += 1
     curs.close()
     return pila_comando
 
