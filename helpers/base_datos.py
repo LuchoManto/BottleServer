@@ -7,6 +7,8 @@ from helpers.dato_bd_log import *
 
 pila_medicion = []
 pila_comando = []
+dato_comando_viejo = Dato_db_log(0, 0, 0, 0)
+dato_medicion_viejo = Dato_db(0, 0, 0)
 
 def cargar_comand_log(valor,respuesta):
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
@@ -25,24 +27,28 @@ def cargar_medicion(timestamp, pin, valor):
     db.close()
 
 def cargar_desde_bd_medicion():
+    pila_medicion = []
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT * FROM medicion")
     for (hora, pin, medicion) in curs:
-        if hora == pila_medicion.__getattribute__(hora) & pin == pila_medicion.__getattribute__(pin) \
-                & medicion == pila_medicion.__getattribute__(medicion):
-            pila_medicion.append(Dato_db(hora, pin, medicion))
+        dato_medicion = Dato_db(hora, pin, medicion)
+        if dato_medicion != dato_medicion_viejo:
+            pila_medicion.append(dato_medicion)
+            dato_medicion_viejo = dato_medicion
     curs.close()
     return pila_medicion
 
 def cargar_desde_bd_comando():
+    pila_comando = []
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT * FROM comandlog")
     for (fecha, hora, comando, respuesta) in curs:
-        if fecha == pila_comando.__getattribute__(fecha) & fecha == pila_comando.__getattribute__(hora) \
-                & fecha == pila_comando.__getattribute__(comando) & fecha == pila_comando.__getattribute__(respuesta):
+        dato_comando = Dato_db_log(fecha, hora, comando, respuesta)
+        if dato_comando != dato_comando_viejo:
             pila_comando.append(Dato_db_log(fecha, hora, comando, respuesta))
+            dato_comando_viejo = dato_comando
     curs.close()
     return pila_comando
 
