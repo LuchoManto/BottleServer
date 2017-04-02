@@ -8,3 +8,6 @@ class Dato_db_log:
         self.comando = comando
         self.respuesta = respuesta
         self.id = id(self)
+
+    def get_fecha(self):
+        return self.fecha
