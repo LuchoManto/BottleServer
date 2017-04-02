@@ -44,8 +44,6 @@ def cargar_desde_bd_comando():
     counter = pila_comando.__sizeof__()
     for (fecha, hora, comando, respuesta) in curs:
         dato_comando = Dato_db_log(fecha, hora, comando, respuesta)
-        if counter == 0:
-            pila_comando.append(dato_comando)
         if i > counter:
             pila_comando.append(dato_comando)
         i += 1
