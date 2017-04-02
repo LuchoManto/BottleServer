@@ -7,8 +7,6 @@ from helpers.dato_bd_log import *
 
 pila_medicion = []
 pila_comando = []
-dato_comando_viejo = Dato_db_log(0, 0, 0, 0)
-dato_medicion_viejo = Dato_db(0, 0, 0)
 
 def cargar_comand_log(valor,respuesta):
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
@@ -28,6 +26,7 @@ def cargar_medicion(timestamp, pin, valor):
 
 def cargar_desde_bd_medicion():
     pila_medicion = []
+    dato_medicion_viejo = Dato_db(0, 0, 0)
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT * FROM medicion")
@@ -41,6 +40,7 @@ def cargar_desde_bd_medicion():
 
 def cargar_desde_bd_comando():
     pila_comando = []
+    dato_comando_viejo = Dato_db_log(0, 0, 0, 0)
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
     curs.execute("SELECT * FROM comandlog")
