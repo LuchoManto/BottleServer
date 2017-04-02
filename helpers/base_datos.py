@@ -29,8 +29,9 @@ def cargar_desde_bd_medicion():
     curs = db.cursor()
     curs.execute("SELECT * FROM medicion")
     for (hora, pin, medicion) in curs:
-        dato_medicion = Dato_db(hora, pin, medicion)
-        pila_medicion.append(Dato_db(hora, pin, medicion))
+        if hora == pila_medicion.__getattribute__(hora) & pin == pila_medicion.__getattribute__(pin) \
+                & medicion == pila_medicion.__getattribute__(medicion):
+            pila_medicion.append(Dato_db(hora, pin, medicion))
     curs.close()
     return pila_medicion
 
@@ -39,8 +40,9 @@ def cargar_desde_bd_comando():
     curs = db.cursor()
     curs.execute("SELECT * FROM comandlog")
     for (fecha, hora, comando, respuesta) in curs:
-        dato_comando = Dato_db_log(fecha, hora, comando, respuesta)
-        pila_comando.append(Dato_db_log(fecha, hora, comando, respuesta))
+        if fecha == pila_comando.__getattribute__(fecha) & fecha == pila_comando.__getattribute__(hora) \
+                & fecha == pila_comando.__getattribute__(comando) & fecha == pila_comando.__getattribute__(respuesta):
+            pila_comando.append(Dato_db_log(fecha, hora, comando, respuesta))
     curs.close()
     return pila_comando
 
