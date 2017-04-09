@@ -7,8 +7,8 @@ from helpers.dato_bd_log import *
 
 pila_medicion = []
 pila_comando = []
-row_numb_medicion = 0
-row_numb_log = 0
+row_numb_medicion = 1
+row_numb_log = 1
 
 def cargar_comand_log(valor,respuesta):
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
