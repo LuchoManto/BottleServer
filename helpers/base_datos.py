@@ -32,7 +32,7 @@ def cargar_desde_bd_medicion():
     global row_numb_medicion
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
-    curs.execute("SELECT * FROM medicion LIMIT %s OFFSET 9999", int(row_numb_medicion))
+    curs.execute("SELECT * FROM medicion LIMIT %s , 9999", int(row_numb_medicion))
     for (hora, pin, medicion) in curs:
         dato_medicion = Dato_db(hora, pin, medicion)
         pila_medicion.append(dato_medicion)
@@ -45,7 +45,7 @@ def cargar_desde_bd_comando():
     global row_numb_log
     db = MySQLdb.connect("localhost", "ignacio", "mantosamba", "SensorCampoElectroEstatico")
     curs = db.cursor()
-    curs.execute("SELECT * FROM comandlog LIMIT %s OFFSET 9999", int(row_numb_log))
+    curs.execute("SELECT * FROM comandlog LIMIT %s , 9999", int(row_numb_log))
     for (fecha, hora, comando, respuesta) in curs:
         dato_comando = Dato_db_log(fecha, hora, comando, respuesta)
         pila_comando.append(dato_comando)
