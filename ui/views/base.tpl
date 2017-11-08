@@ -35,6 +35,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/">Home</a></li>
                     <li><a href="/graphic.html">Datos</a></li>
+                    <li><a href="/all.html">All</a></li>
                 </ul>
             </div>
         </div>
