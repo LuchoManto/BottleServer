@@ -14,14 +14,11 @@
               </tr>
             </thead>
             <tbody>
-                %for row in pila_medicion:
-                %hora = row.hora
-                %pin = row.pin
-                %medicion = row.medicion
+            %for row in reversed(pila_medicion):
               <tr>
-                <td>{{hora}}</td>
-                <td>{{pin}}</td>
-                <td>{{medicion}}</td>
+                <td>{{row['hora']}}</td>
+                <td>{{row['pin']}}</td>
+                <td>{{row['medicion']}}</td>
               </tr>
             %end
             </tbody>
@@ -39,12 +36,12 @@
               </tr>
             </thead>
             <tbody>
-                %for row in pila_comando:
+            %for row in reversed(pila_comando):
                 <tr>
-                    <td>{{row.fecha}}</td>
-                    <td>{{row.hora}}</td>
-                    <td>{{row.comando}}</td>
-                    <td>{{row.respuesta}}</td>
+                    <td>{{row['fecha']}}</td>
+                    <td>{{row['hora']}}</td>
+                    <td>{{row['comando']}}</td>
+                    <td>{{row['respuesta']}}</td>
                 </tr>
             %end
             </tbody>
