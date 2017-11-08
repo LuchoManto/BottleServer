@@ -118,7 +118,7 @@ $(document).ready(function(){
             updateTable(data)
         });
 
-    }, 1000);
+    }, 3000);
 });
 </script>
 <!-- end Graph HTML -->
