@@ -1,5 +1,6 @@
 %rebase('base.tpl')
 %from helpers.base_datos import *
+% from helpers.interval import *
 
 <div class="col-xs-6">
     <!-- Graph HTML -->
