@@ -81,12 +81,12 @@ var agregarDatoMedicion = function(dato, table){
     var row = table.insertRow(1);
 
     // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-    var fechaCell = row.insertCell(0);
+    var horaCell = row.insertCell(0);
     var pinCell = row.insertCell(1);
     var medicionCell = row.insertCell(2);
 
     // Add some text to the new cells:
-    fechaCell.innerHTML = dato.fecha;
+    horaCell.innerHTML = dato.hora;
     pinCell.innerHTML = dato.pin;
     medicionCell.innerHTML = dato.medicion;
 };
