@@ -32,6 +32,10 @@
                 <a class="navbar_top_icon"><img height="45" width="45" alt="Brand" src="/images/wifi_icon.png"></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar_ex_collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/graphics">Datos</a></li>
+                </ul>
             </div>
         </div>
     </div>
