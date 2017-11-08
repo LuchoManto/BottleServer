@@ -151,6 +151,12 @@ def graphic():
     cargar_desde_bd_comando()
     return template('graphic.tpl')
 
+@app.get('/all.html')
+def graphic():
+    cargar_desde_bd_medicion()
+    cargar_desde_bd_comando()
+    return template('all.tpl')
+
 @app.get('/data')
 def graphic():
     cargar_desde_bd_medicion()
