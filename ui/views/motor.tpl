@@ -15,10 +15,22 @@
         </div>
 
     </div>
+    <!-- ADC div -->
+    <div class="container padding_top20">
+        <div class="col-xs-2">
+            <label class="control-label">ADC:</label>
+        </div>
+        <div class="col-xs-2">
+            <button type="button" class="btn btn-success send_serial" value="ST">Start</button>
+        </div>
+        <div class="col-xs-2">
+            <button type="button" class="btn btn-danger send_serial" value="s">End</button>
+        </div>
+    </div>
     <!-- Engine status div -->
     <div id="engine_status" class="container padding_top20">
         <div class="col-xs-2">
-            <label class="control-label">Engine Status: </label>
+            <label class="control-label">Engine: </label>
         </div>
         <div class="col-xs-2">
             <button type="button" class="btn btn-success send_serial" value="AMS">On</button>

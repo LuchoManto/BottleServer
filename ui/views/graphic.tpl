@@ -8,7 +8,7 @@
         <table id="tablaMediciones" class="table table-striped">
             <thead>
               <tr>
-                <th>Fecha</th>
+                <th>Hora</th>
                 <th>Pin</th>
                 <th>Medición</th>
               </tr>
