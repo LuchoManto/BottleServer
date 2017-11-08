@@ -59,3 +59,11 @@ def cargar_desde_bd_comando():
         count_log = count_log + 1
     curs.close()
     return pila_comando
+
+
+def get_pila_medicion():
+    return pila_medicion
+
+
+def get_pila_comando():
+    return pila_comando

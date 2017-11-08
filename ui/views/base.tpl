@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse" id="navbar_ex_collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/graphics">Datos</a></li>
+                    <li><a href="/graphic.html">Datos</a></li>
                 </ul>
             </div>
         </div>

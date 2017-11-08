@@ -13,42 +13,7 @@
         <div class="col-xs-2">
             <button id="send_serial_button" class="btn btn-primary">Send</button>
         </div>
-        <div class="col-xs-2">
-            <!--<button id="base_datos" class="btn btn-info btn-lg">Ver Mediciones</button> -->
-            <ul id="dato_bd" class="nav navbar-nav navbar-right">
-                <li><a href="/graphic.html">Datos Sensor</a></li>
-            </ul>
-        </div>
-    </div>
-    <!-- Active listener UART and disable it-->
-    <div id="uart_state" class="container padding_top20">
-        <div class="col-xs-2">
-          <label class="control-label">Uart state: </label>
-        </div>
-        <div class="col-xs-6">
-          <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                State <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                  <li>
-                      <a class="uart_connection" value="connected" href="#">Connected</a>
-                  </li>
-                  <li>
-                      <a class="uart_connection" value="disconnected" href="#">Disconnected</a>
-                  </li>
-              </ul>
-          </div>
-        </div>
-    </div>
-    <!-- Engine measurement value div -->
-    <div id="engine_value" class="container padding_top20">
-        <div class="col-xs-2">
-            <label class="control-label">Sensor measurement: </label>
-        </div>
-        <div class="col-xs-2">
-            <button type="button" class="btn btn-primary send_serial" value="GDIx0">Get value</button>
-        </div>
+
     </div>
     <!-- Engine status div -->
     <div id="engine_status" class="container padding_top20">
@@ -56,7 +21,7 @@
             <label class="control-label">Engine Status: </label>
         </div>
         <div class="col-xs-2">
-            <button type="button" class="btn btn-success send_serial" value="PWM">On</button>
+            <button type="button" class="btn btn-success send_serial" value="AMS">On</button>
         </div>
         <div class="col-xs-2">
             <button type="button" class="btn btn-danger send_serial" value="NTP">Off</button>
@@ -85,18 +50,7 @@
             </div>
         </div>
     </div>
-    <!-- Low power div-->
-    <div id="low_power" class="container padding_top20">
-        <div class="col-xs-2">
-            <label class="control-label">Low Power Mode: </label>
-        </div>
-        <div class="col-xs-2">
-            <button type="button" class="btn btn-success send_serial" value="SLP">SLEEP</button>
-        </div>
-        <div class="col-xs-2">
-            <button type="button" class="btn btn-danger send_serial" value="W">WAKE UP</button>
-        </div>
-    </div>
+
 <div id="set_interval" class="container padding_top20">
         <div class="col-xs-2">
             <label class="control-label">Set mesuring interval: </label>

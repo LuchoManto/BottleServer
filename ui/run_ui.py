@@ -1,21 +1,15 @@
 __author__ = 'Gaston'
 
-import threading
-import time
-
-import MySQLdb
-
+import json
 import bottle
-from bottle import Bottle
-from bottle import route, run, template, static_file, response, request
-from bottle import debug as bottle_debug, static_file, view, response, request
-from bottle import SimpleTemplate
+from bottle import Bottle, template, response
+from bottle import debug as bottle_debug, static_file, view, request
 
 from helpers.connection import *
 from helpers.start import *
 from helpers.interval import *
 from helpers.serial_uart import *
-from helpers.base_datos import*
+from helpers.base_datos import *
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -156,6 +150,16 @@ def graphic():
     cargar_desde_bd_medicion()
     cargar_desde_bd_comando()
     return template('graphic.tpl')
+
+@app.get('/data')
+def graphic():
+    cargar_desde_bd_medicion()
+    cargar_desde_bd_comando()
+    pila_medicion = get_pila_medicion()
+    pila_comando = get_pila_comando()
+
+    response.content_type = 'application/json'
+    return json.dumps({'pila_medicion': pila_medicion, 'pila_comando': pila_comando})
 
 
 # def triggerStart():
