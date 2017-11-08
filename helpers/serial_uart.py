@@ -9,13 +9,13 @@ import re
 from helpers.base_datos import*
 from helpers.conversion_data_handler import*
 
-
-
 class ClaseSerial:
 
-
-
     def __init__(self):
+        self.producer_th = None
+        self.consumer_th = None
+        self.produciendo = False
+        self.consumiendo = False
 
         self.port = serial.Serial(port = '/dev/ttyAMA0',
         #self.port = serial.Serial(port = 'COM6',
@@ -57,13 +57,33 @@ class ClaseSerial:
         # todo: save in db: recv, in command log table
     
     def kill_threads(self):
+        if self.consumer_th is not None:
+            self.consumiendo = False
+            self.consumer_th = None
+
+        if self.producer_th is not None:
+            self.produciendo = False
+            self.producer_th = None
 
         self.waitt = 1
-        self.e.wait()
+        # self.e.wait()
         # self.waitt2= 1
         # self.e.wait()
         # self.e1.wait()
         cargar_comand_log('kill', '1')
+
+    def producir(self):
+        if self.producer_th is None:
+            self.produciendo = True
+            self.producer_th = threading.Thread(name='producer', target=self.loop_productor)
+            self.producer_th.start()
+
+
+    def consumir(self):
+        if self.consumer_th is None:
+            self.consumiendo = True
+            self.consumer_th = threading.Thread(name='consumer', target=self.loop_consumidor)
+            self.consumer_th.start()
 
     def start_conversion_ST(self):
         if self.waitt == 1:
@@ -71,15 +91,18 @@ class ClaseSerial:
             self.waitt = 0
             cargar_comand_log('restart', '0')
         try:
-            self.e.set()
+            # self.e.set()
             # thread.start_new_thread(self.keepGoing_start())
-            t1 = threading.Thread(name='producer', target=self.loop_productor, args=(self.e,))
-            cargar_comand_log('producer on', 'ok')
-            t2 = threading.Thread(name='consumer', target=self.loop_consumidor, args=(self.e,))
-            cargar_comand_log('consumer on', 'ok')
-            t1.start()
+            self.producir()
             time.sleep(0.5)
-            t2.start()
+            self.consumir()
+            # t1 = threading.Thread(name='producer', target=self.loop_productor, args=(self.e,))
+            # cargar_comand_log('producer on', 'ok')
+            # t2 = threading.Thread(name='consumer', target=self.loop_consumidor, args=(self.e,))
+            # cargar_comand_log('consumer on', 'ok')
+            # t1.start()
+            # time.sleep(0.5)
+            # t2.start()
         except:
             print "Error: unable to start thread-producer"
          
@@ -135,28 +158,33 @@ class ClaseSerial:
         # todo: save in db: recv, in command log table
         # thread que recibe los datos desde la uart y los guarda en el buffer. PRODUCTOR
 
-    def loop_productor(self, e):
-
-        #TODO: guardar en la base de datos: "producer thread started", en la tabla de log del monitor
-        #todo: vaciar buffer
-
-        #todo: crear thread que ejecute la funcion guardarDatosContinuos
-        #todo: guardar en la base de datos: "consumer thread started", en la tabla de log del monitor
-
-        while self.waitt == 0:
-            # toSave = self.recibir()
-            #  toSave3 = retrieve_conversion(toSave)
-            # if self.waitt == 1:
-            #  cargar_comand_log('procesor ended','1')
-            #  break
-            #  else:
+    def loop_productor(self):
+        while self.produciendo:
             toSave = self.recibir()
-            #cargar_comand_log('recibe', toSave)
+            # cargar_comand_log('recibe', toSave)
             time.sleep(0.5)
             if self.check_entry(toSave):
                 self.buffer_mediciones.append(toSave)
-                e.set()
-            # toSave3 = retrieve_conversion(toSave)
+        # #TODO: guardar en la base de datos: "producer thread started", en la tabla de log del monitor
+        # #todo: vaciar buffer
+        #
+        # #todo: crear thread que ejecute la funcion guardarDatosContinuos
+        # #todo: guardar en la base de datos: "consumer thread started", en la tabla de log del monitor
+        #
+        # while self.waitt == 0:
+        #     # toSave = self.recibir()
+        #     #  toSave3 = retrieve_conversion(toSave)
+        #     # if self.waitt == 1:
+        #     #  cargar_comand_log('procesor ended','1')
+        #     #  break
+        #     #  else:
+        #     toSave = self.recibir()
+        #     #cargar_comand_log('recibe', toSave)
+        #     time.sleep(0.5)
+        #     if self.check_entry(toSave):
+        #         self.buffer_mediciones.append(toSave)
+        #         e.set()
+        #     # toSave3 = retrieve_conversion(toSave)
             # self.e.set()
         # loop forever:
         # guardar en buffer
@@ -174,10 +202,10 @@ class ClaseSerial:
 
 
 
-    def loop_consumidor(self, e):
+    def loop_consumidor(self):
         # thread que guarda los datos leidos del buffer en la base de datos. CONSUMIDOR
         last = "0"
-        while e.is_set():
+        while self.consumiendo:
             if self.buffer_mediciones:
                 toSave = self.buffer_mediciones.popleft()
                 if not toSave:

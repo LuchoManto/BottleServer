@@ -66,7 +66,7 @@ def send_serial(value):
     :param value: valor a enviar por serial
     """
     send = value
-    #operacion,pin,vel = send.split(",")
+    # operacion,pin,vel = send.split(",")
     resp = serial_obj.enviarYObtenerRespuesta(send)
     resp1 = resp[-5:]
     cargar_comand_log(send,resp1)
@@ -133,8 +133,8 @@ def set_interval():
     min_start = int(start.split(":")[1])
     hour_end = int(end.split(":")[0])
     min_end = int(end.split(":")[1])
-    interv = Interval(hour_start, min_start, hour_end, min_end, sched, serial_obj)
-    interv.activate_interval()
+    # interv = Interval(hour_start, min_start, hour_end, min_end, sched, serial_obj)
+    # interv.activate_interval()
     return
 
 @app.post('/remove_interval/<value>')
